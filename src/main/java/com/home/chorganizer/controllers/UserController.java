@@ -115,6 +115,8 @@ public class UserController {
     public String delete(@PathVariable("id") Long id){
     	userService.deleteUser(id);
         return "redirect:/admin";
+        
+        // test comment added for github usage.
     }
     
     @RequestMapping("/logout")
