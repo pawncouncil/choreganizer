@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -19,6 +20,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
+
+
 
 @SuppressWarnings("deprecation")
 @Entity
@@ -36,12 +39,6 @@ public class User {
     private String last;
     @Size(min=10)
     private String phone;
-    public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
 	@Size(min=8)
     private String password;
     @Transient
@@ -54,7 +51,23 @@ public class User {
     private Date updatedAt;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date lastSignIn;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="creator", fetch = FetchType.LAZY)
+    private List<Chore> createdChores;
+    @OneToMany(mappedBy="assignee", fetch = FetchType.LAZY)
+    private List<Chore> assignedChores;
+    public List<Chore> getCreatedChores() {
+		return createdChores;
+	}
+	public void setCreatedChores(List<Chore> createdChores) {
+		this.createdChores = createdChores;
+	}
+	public List<Chore> getAssignedChores() {
+		return assignedChores;
+	}
+	public void setAssignedChores(List<Chore> assignedChores) {
+		this.assignedChores = assignedChores;
+	}
+	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles", 
         joinColumns = @JoinColumn(name = "user_id"), 
@@ -79,6 +92,12 @@ public class User {
 	}
 	public String getLast() {
 		return last;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	public void setLast(String last) {
 		this.last = last;

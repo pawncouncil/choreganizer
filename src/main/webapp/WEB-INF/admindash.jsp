@@ -2,11 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Collections"%>
    
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+<script type="text/javascript" src="js/app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Dash</title>
@@ -65,5 +70,65 @@
             </tbody>
         </table>
     </div>
+        <div class="tables">
+			<table>
+				<thead>
+				  <tr>
+				    <th>Chore</th>
+				    <th>Description</th>
+				    <!-- <th>Creator</th> -->
+				    <th>Assignee</th>
+				    <th>Priority</th>
+				  </tr>
+				</thead>
+				<tbody>
+				 <c:forEach items="${chores}" var="chore"> 
+				  <tr>
+				  	<td>${chore.title}</td>
+				    <td>${chore.description}</td>
+				    <%-- <td>${chore.creator.first}</td> --%>
+				    <td>${chore.assignee.first}</td>
+				    <c:if test="${chore.priority == 1 }">
+				    <td><c:out value="Low"/></td></c:if>
+				    <c:if test="${chore.priority == 2 }">
+				    <td><c:out value="Medium"/></td></c:if>
+				    <c:if test="${chore.priority == 3 }">
+				    <td><c:out value="High"/></td></c:if>
+				  </tr>
+				</c:forEach>
+			  </tbody>
+			</table>
+		</div>
+    <div class="reg">
+			<form:form method="POST" action="/chores/new" modelAttribute="chore">
+		    
+		    	<p>
+		            Chore<br>
+		            <form:input path="title"/>
+		        </p>
+		        <p>
+		            Description<br>
+		            <form:input path="description"/>
+		        </p>
+		        
+		        	Assignee:<br>
+			        <form:select path="assignee" >
+			            <c:forEach items="${allUsers}" var="x">
+			                <form:option value="${x.id}">${x.first}</form:option>
+			            </c:forEach>
+			        </form:select>
+			    
+		        <p>
+		            Priority:<br>
+			        <form:select path="priority">
+							<form:option value="1">Low</form:option>
+							<form:option value="2">Medium</form:option>
+							<form:option value="3">High</form:option>
+					</form:select>
+				</p>				
+		       
+		        <input type="submit" value="Create"/>
+		    </form:form>
+		</div>
 </body>
 </html>

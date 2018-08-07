@@ -24,29 +24,29 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public void savePleb(User user) {
+    public User savePleb(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         ArrayList<Role> roles = new ArrayList<Role>();
         roles.add(roleRepository.findByType("ROLE_USER"));
         user.setRoles(roles);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
-    public void saveAdmin(User user) {
+    public User saveAdmin(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         ArrayList<Role> roles = new ArrayList<Role>();
         roles.add(roleRepository.findByType("ROLE_USER"));
         roles.add(roleRepository.findByType("ROLE_ADMIN"));
         user.setRoles(roles);
-        userRepository.save(user);
+        return userRepository.save(user);
     }    
-    public void saveSuper(User user) {
+    public User saveSuper(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         ArrayList<Role> roles = new ArrayList<Role>();
         roles.add(roleRepository.findByType("ROLE_USER"));
         roles.add(roleRepository.findByType("ROLE_ADMIN"));
         roles.add(roleRepository.findByType("ROLE_SUPER"));
         user.setRoles(roles);
-        userRepository.save(user);
+        return userRepository.save(user);
     } 
 
     public User findByEmail(String email) {
