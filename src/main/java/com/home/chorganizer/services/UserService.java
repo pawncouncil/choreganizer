@@ -50,7 +50,13 @@ public class UserService {
     } 
 
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    	Optional<User> u = userRepository.findByEmail(email);
+    	
+    	if(u.isPresent()) {
+            return u.get();
+    	} else {
+    	    return null;
+    	}
     }
     
     public User findById(Long id) {

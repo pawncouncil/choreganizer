@@ -1,8 +1,6 @@
 package com.home.chorganizer.controllers;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 import com.home.chorganizer.models.Chore;
 import com.home.chorganizer.models.Role;
@@ -53,9 +50,9 @@ public class UserController {
         makeRoles();
 
     }
-
-    @RequestMapping("/login")
-    public String login(@RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model, HttpSession session) {
+    
+     @RequestMapping("/login")
+    public String login(@ModelAttribute("user") User user, @RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model, HttpSession session) {
     	if(logout != null) {
             model.addAttribute("logout", "Logout Successful!");
         }
@@ -86,12 +83,13 @@ public class UserController {
     
     @RequestMapping(value= {"/", "/home"})
     public String user(@ModelAttribute("chore") Chore chore, HttpSession session, Principal principal, Model model, @RequestParam(value="priority", required=false) String priority) {
-    	Long userId = (Long) session.getAttribute("userId");
-    	User user = userService.findById(userId);
+    	String email = principal.getName();
+    	if(email == null) {
+    		return "redirect:/login";
+    	}
+    	User user = userService.findByEmail(email);
     	model.addAttribute("user", user);
 
-     
-        
         if(user.getRoles().size() > 1) {
         	return "redirect:/admin";
         }
