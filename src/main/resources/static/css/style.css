@@ -8,20 +8,24 @@ table {
 }
 
 td, th {
-    border: 1px solid #ddd;
-    padding: 8px;
+    border: 1px solid #b1b1b1;
+    padding: 4px;
 }
 
-tr:nth-child(even){background-color: #f2f2f2;}
+ tr{background-color: #c0c0c0;}
 
-tr:hover {background-color: #ddd;}
+ /* tr:hover {background-color: #ddd;}  */
 
 th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #bf841f;
-    color: white;
+    background: #bdc3c7;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to top, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+    /* background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%); */
+    color: #eaeaea;
 }
 
 * {
@@ -30,10 +34,10 @@ th {
 
 input[type=text], select, textarea {
     width: 30%;
-    padding: 12px;
+    padding: 6px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
+    border-radius: 2px;
+  	resize: vertical;
 }
 
 label {
@@ -42,24 +46,52 @@ label {
 }
 
 input[type=submit] {
-    background-color: #bf841f;
+    background-color: #a9a9a9;
     color: white;
-    padding: 12px 20px;
+    padding: 6px 10px;
     border: none;
-    border-radius: 4px;
+    border-radius: 2px;
     cursor: pointer;
-    margin-left: 215px;
+    margin-left: 210px;
+}
+
+.button{
+  background-color: #a9a9a9;
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    text-decoration:none;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.button:hover{
+	background-color: black;
+	text-decoration:none;
+	color: white;
 }
 
 input[type=submit]:hover {
     background-color: black;
 }
 
+p{
+	margin-left: 5px;
+	color: #d5d5d5;
+}
+
 .container {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     /* border-radius: 5px; */ 
-    background-color: #f2f2f2;
-    padding: 20px;
+    background: #bdc3c7;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to top, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	padding: 20px;
+}
+
+.container table {
+	margin-bottom: 20px;
 }
 
 .col-25 {

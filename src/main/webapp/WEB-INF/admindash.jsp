@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Dash</title>
@@ -28,7 +28,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Email</th>
+                    <th>Phone #</th>
                     <th>Actions</th>
                     <th>Last Login</th>
                 </tr>
@@ -37,7 +37,7 @@
                 <c:forEach items="${allUsers}" var="single">
                     <tr>
                         <td>${single.first} ${single.last}</td>
-                        <td>${single.email}</td>
+                        <td>${single.phone}</td>
                         <c:if test="${user.getRoles().size() > 2}">
                             <td>
                                 <c:if test="${single.getRoles().size() == 3}">Super Admin</c:if>
@@ -69,66 +69,60 @@
                 </c:forEach>
             </tbody>
         </table>
-    </div>
-        <div class="tables">
-			<table>
-				<thead>
-				  <tr>
-				    <th>Chore</th>
-				    <th>Description</th>
-				    <!-- <th>Creator</th> -->
-				    <th>Assignee</th>
-				    <th>Priority</th>
-				  </tr>
-				</thead>
-				<tbody>
-				 <c:forEach items="${chores}" var="chore"> 
-				  <tr>
-				  	<td>${chore.title}</td>
-				    <td>${chore.description}</td>
-				    <%-- <td>${chore.creator.first}</td> --%>
-				    <td>${chore.assignee.first}</td>
-				    <c:if test="${chore.priority == 1 }">
-				    <td><c:out value="Low"/></td></c:if>
-				    <c:if test="${chore.priority == 2 }">
-				    <td><c:out value="Medium"/></td></c:if>
-				    <c:if test="${chore.priority == 3 }">
-				    <td><c:out value="High"/></td></c:if>
-				  </tr>
-				</c:forEach>
-			  </tbody>
-			</table>
-		</div>
-    <div class="reg">
-			<form:form method="POST" action="/chores/new" modelAttribute="chore">
-		    
-		    	<p>
-		            Chore<br>
-		            <form:input path="title"/>
-		        </p>
-		        <p>
-		            Description<br>
-		            <form:input path="description"/>
-		        </p>
-		        
-		        	Assignee:<br>
-			        <form:select path="assignee" >
-			            <c:forEach items="${allUsers}" var="x">
-			                <form:option value="${x.id}">${x.first}</form:option>
-			            </c:forEach>
-			        </form:select>
-			    
-		        <p>
-		            Priority:<br>
-			        <form:select path="priority">
-							<form:option value="1">Low</form:option>
-							<form:option value="2">Medium</form:option>
-							<form:option value="3">High</form:option>
-					</form:select>
-				</p>				
-		       
-		        <input type="submit" value="Create"/>
-		    </form:form>
-		</div>
+		<table class="table table-ruled table-striped">
+			<thead>
+			  <tr>
+			    <th>All Chores</th>
+			    <th>Descriptions</th>
+			    <th>Assignee</th>
+			    <th>Priority</th>
+			    <th>Actions</th>
+			  </tr>
+			</thead>
+			<tbody>
+			 <c:forEach items="${chores}" var="chore"> 
+			  <tr>
+			  	<td>${chore.title}</td>
+			    <td>${chore.description}</td>
+			    <td>${chore.assignee.first}</td>
+			    <c:if test="${chore.priority == 1 }">
+			    <td><c:out value="Low"/></td></c:if>
+			    <c:if test="${chore.priority == 2 }">
+			    <td><c:out value="Medium"/></td></c:if>
+			    <c:if test="${chore.priority == 3 }">
+			    <td><c:out value="High"/></td></c:if>
+				<td>
+					<a href="/chores/${chore.id}/edit">Edit  |</a>
+					<a href="/chores/${chore.id}/delete">  Delete</a>
+				</td>
+			  </tr>
+			</c:forEach>
+		  </tbody>
+		</table>
+		<form:form method="POST" action="/chores/new" modelAttribute="chore">
+	    
+	    	<form:input path="title"/>
+	    	<p>Chore<br></p>
+	       
+	       <form:input path="description"/>
+	        <p>Description<br> </p>
+	     
+	       <form:select path="assignee" >
+	            <c:forEach items="${allUsers}" var="x">
+	                <form:option value="${x.id}">${x.first}</form:option>
+	            </c:forEach>
+	        </form:select>
+	        <p>Assignee</p>
+			
+			 <form:select path="priority">
+					<form:option value="1">Low</form:option>
+					<form:option value="2">Medium</form:option>
+					<form:option value="3">High</form:option>
+			</form:select>
+			<p>Priority</p>
+	       				       
+	        <input type="submit" value="Create"/>
+	    </form:form>
+	</div>
 </body>
 </html>

@@ -20,58 +20,63 @@
 <body>
     <div class="container">
         <a href="/logout" class="pull-right">Logout</a>
-        <h1>Welcome, ${user.first} ${user.last}</h1>
+        <h1>Welcome,${user.first} ${user.last}</h1>
         <table style="text-align: left; outline: 1px black solid;">
             <tr style="margin: 5px;">
-                <td style="padding: 10px;">First Name:</td>
-                <td style="padding: 10px;">${user.first}</td>
+                <td style="padding: 5px;">First Name:</td>
+                <td style="padding: 5px;">${user.first}</td>
             </tr>
             <tr style="margin: 5px;">
-                <td style="padding: 10px;">Last Name:</td>
-                <td style="padding: 10px;">${user.last}</td>
+                <td style="padding: 5px;">Last Name:</td>
+                <td style="padding: 5px;">${user.last}</td>
             </tr>
             <tr style="margin: 5px;">
-                <td style="padding: 10px;">Email:</td>
-                <td style="padding: 10px;">${user.email}</td>
+                <td style="padding: 5px;">Email:</td>
+                <td style="padding: 5px;">${user.email}</td>
             </tr>
             <tr style="margin: 5px;">
-                <td style="padding: 10px;">Sign Up Date:</td>
-                <td style="padding: 10px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.createdAt}"></fmt:formatDate></td>
+                <td style="padding: 5px;">Sign Up Date:</td>
+                <td style="padding: 5px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.createdAt}"></fmt:formatDate></td>
             </tr>
             <tr style="margin: 5px;">
-                <td style="padding: 10px;">Last Sign In:</td>
-                <td style="padding: 10px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.lastSignIn}"></fmt:formatDate></td>
+                <td style="padding: 5px;">Last Sign In:</td>
+                <td style="padding: 5px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.lastSignIn}"></fmt:formatDate></td>
             </tr>
         </table>
-    </div>
-    <div class="tables">
-			<table>
-				<thead>
-				  <tr>
-				    <th>Chore</th>
-				    <th>Description</th>
-				    <!-- <th>Creator</th> -->
-				    <th>Assignee</th>
-				    <th>Priority</th>
-				  </tr>
-				</thead>
-				<tbody>
-				 <c:forEach items="${chores}" var="chore"> 
-				  <tr>
-				  	<td>${chore.title}</td>
-				    <td>${chore.description}</td>
-				    <%-- <td>${chore.creator.first}</td> --%>
-				    <td>${chore.assignee.first}</td>
-				    <c:if test="${chore.priority == 1 }">
-				    <td><c:out value="Low"/></td></c:if>
-				    <c:if test="${task.priority == 2 }">
-				    <td><c:out value="Medium"/></td></c:if>
-				    <c:if test="${task.priority == 3 }">
-				    <td><c:out value="High"/></td></c:if>
-				  </tr>
-				</c:forEach>
-			  </tbody>
-			</table>
-		</div>
+
+		<table style="text-align: left; outline: 1px black solid;">
+			<thead>
+			  <tr>
+			    <th>Chore</th>
+			    <th>Description</th>
+			    <!-- <th>Creator</th> -->
+			    <th>Assignee</th>
+			    <th>Priority</th>
+			    <th>Status</th>
+			  </tr>
+			</thead>
+			<tbody>
+			 <c:forEach items="${chores}" var="chore"> 
+			  <tr>
+			  	<td>${chore.title}</td>
+			    <td>${chore.description}</td>
+			    <td>${chore.assignee.first}</td>
+			    <c:if test="${chore.priority == 1 }">
+			    <td><c:out value="Low"/></td></c:if>
+			    <c:if test="${chore.priority == 2 }">
+			    <td><c:out value="Medium"/></td></c:if>
+			    <c:if test="${chore.priority == 3 }">
+			    <td><c:out value="High"/></td></c:if>
+			    <c:choose>
+				    <c:when test="${chore.assignee == user }">
+				    <td><a href="/chores/${chore.id}/delete">Completed</a></td></c:when>
+				    <c:otherwise>
+				    <td><a href="/sunrise">Still dirty</a></td></c:otherwise>
+			    </c:choose>
+			  </tr>
+			</c:forEach>
+		  </tbody>
+		</table>
+	</div>
 </body>
 </html>
