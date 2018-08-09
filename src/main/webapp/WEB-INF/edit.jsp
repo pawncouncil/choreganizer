@@ -24,6 +24,51 @@
 	<div class="container">
         <a href="/logout" class="pull-right">Logout</a>
         <h1>Edit: ${chore.title}</h1>
+        <table class="table table-ruled table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone #</th>
+                    <th>Actions</th>
+                    <th>Last Login</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${users}" var="single">
+                    <tr>
+                        <td>${single.first} ${single.last}</td>
+                        <td>${single.phone}</td>
+                        <c:if test="${user.getRoles().size() > 2}">
+                            <td>
+                                <c:if test="${single.getRoles().size() == 3}">Super Admin</c:if>
+                                <c:if test="${single.getRoles().size() != 3}">
+                                    <c:if test="${single == user}">Admin</c:if>
+                                    <c:if test="${single != user}">
+                                        <a href="/delete/${single.id}">Delete</a>
+                                        <c:if test="${single.getRoles().size() == 1}"> | <a href="/make-admin/${single.id}">Make Admin</a></c:if>
+                                        <c:if test="${single.getRoles().size() == 2}"> | <a href="/revoke-admin/${single.id}">Revoke Admin</a></c:if>
+                                    </c:if>
+                                </c:if>
+                            </td>
+                        </c:if>
+                        <c:if test="${user.getRoles().size() == 2}">
+                            <c:if test="${single.getRoles().size() > 1}">
+                                <td>Admin</td>
+                            </c:if>
+                            <c:if test="${single.getRoles().size() == 1}">
+                                <td><a href="/delete/${single.id}">Delete</a> | <a href="/make-admin/${single.id}">Make Admin</a></td>
+                            </c:if>
+                        </c:if>
+                        <c:if test="${single.lastSignIn == null}">
+                            <td>Never signed in</td>
+                        </c:if>
+                        <c:if test="${single.lastSignIn != null}">
+                            <td><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.lastSignIn}"></fmt:formatDate></td>
+                        </c:if>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
 		<table class="table table-ruled table-striped">
 			<thead>
 			  <tr>
@@ -62,7 +107,7 @@
 	       <form:input path="description"/>
 	        <p>Description<br> </p>
 	     
-	       <form:select path="assignee" >
+	       <form:select path="assignee">
 	            <c:forEach items="${users}" var="x">
 	                <form:option value="${x.id}">${x.first}</form:option>
 	            </c:forEach>

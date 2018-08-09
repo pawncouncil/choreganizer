@@ -155,14 +155,11 @@ public class UserController {
        if (result.hasErrors()) {
            return "admindash.jsp";
        } else {
-		   System.out.println("got here");
 		   Long userId = (Long) session.getAttribute("userId");
 		   User user = userService.findById(userId);
-		   System.out.println(user);
 		   model.addAttribute("user", user);
 		   chore.setCreator(user);
 	       choreService.createChore(chore);
-	       System.out.println(chore.getId());
 	       return "redirect:/admin";
        }
 
@@ -175,19 +172,24 @@ public class UserController {
    	}
     
     @RequestMapping("chores/{idEdit}/edit")
-    public String edit(@ModelAttribute("chore") Chore chore, @PathVariable("idEdit") Long id, Model model, HttpSession session) {
+    public String edit(@ModelAttribute("chore") Chore chore, @PathVariable("idEdit") Long id, Principal principal, Model model, HttpSession session) {
+    	String email = principal.getName();
+        model.addAttribute("user", userService.findByEmail(email));
+        model.addAttribute("allUsers", userService.allUsers());
+        User user = userService.findByEmail(email);
+        session.setAttribute("userId", user.getId());
     	Object chores = choreService.allDescend();
 		model.addAttribute("chores", chores);
     	Chore choreToEdit = choreService.findOne(id);
-    	Long currentUser = (Long) session.getAttribute("userId");
-    	if (choreToEdit.getCreator().getId() != currentUser) {
-    		return "redirect:/admin";
-    	} else {
+//    	Long currentUser = (Long) session.getAttribute("userId");
+//    	if (choreToEdit.getCreator().getId() != currentUser) {
+//    		return "redirect:/admin";
+//    	} else {
     	List<User> users = userService.allUsers();
     	model.addAttribute("users", users);
     	model.addAttribute("chore", choreToEdit);
     	return "/edit.jsp";  
-    	}
+//    	}
     }
     
     @PostMapping("/chores/{id}/edit")

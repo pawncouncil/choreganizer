@@ -122,6 +122,7 @@
 			<p>Priority</p>
 	       				       
 	        <input type="submit" value="Create"/>
+	        <a href="/sunrise" class="button">Don't</a>
 	    </form:form>
 	</div>
 </body>
