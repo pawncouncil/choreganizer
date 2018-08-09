@@ -14,16 +14,16 @@
 	<script type="text/javascript" src="js/app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin Dash</title>
+    <title>Edit Chore</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 <body>
-    <div class="container">
+	<div class="container">
         <a href="/logout" class="pull-right">Logout</a>
-        <h1>Welcome, ${user.first}</h1>
+        <h1>Edit: ${chore.title}</h1>
         <table class="table table-ruled table-striped">
             <thead>
                 <tr>
@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${allUsers}" var="single">
+                <c:forEach items="${users}" var="single">
                     <tr>
                         <td>${single.first} ${single.last}</td>
                         <td>${single.phone}</td>
@@ -99,7 +99,7 @@
 			</c:forEach>
 		  </tbody>
 		</table>
-		<form:form method="POST" action="/chores/new" modelAttribute="chore">
+		<form:form method="POST" action="/chores/${chore.id}/edit" modelAttribute="chore">
 	    
 	    	<form:input path="title"/>
 	    	<p>Chore<br></p>
@@ -107,8 +107,8 @@
 	       <form:input path="description"/>
 	        <p>Description<br> </p>
 	     
-	       <form:select path="assignee" >
-	            <c:forEach items="${allUsers}" var="x">
+	       <form:select path="assignee">
+	            <c:forEach items="${users}" var="x">
 	                <form:option value="${x.id}">${x.first}</form:option>
 	            </c:forEach>
 	        </form:select>
@@ -121,9 +121,10 @@
 			</form:select>
 			<p>Priority</p>
 	       				       
-	        <input type="submit" value="Create"/>
-	        <a href="/sunrise" class="button">Don't</a>
+	        <input type="submit" value="Update"/>
+	        <a href="/" class="button">Done</a>
 	    </form:form>
+	    	
 	</div>
 </body>
 </html>

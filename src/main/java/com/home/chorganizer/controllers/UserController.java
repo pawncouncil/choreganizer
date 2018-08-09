@@ -1,6 +1,7 @@
 package com.home.chorganizer.controllers;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -89,7 +91,8 @@ public class UserController {
     	}
     	User user = userService.findByEmail(email);
     	model.addAttribute("user", user);
-
+    	Object chores = choreService.allDescend();
+		model.addAttribute("chores", chores);
         if(user.getRoles().size() > 1) {
         	return "redirect:/admin";
         }
@@ -102,6 +105,8 @@ public class UserController {
         model.addAttribute("allUsers", userService.allUsers());
         User user = userService.findByEmail(email);
         session.setAttribute("userId", user.getId());
+        Object chores = choreService.allDescend();
+		model.addAttribute("chores", chores);
         if(user.getRoles().size() > 2) {
         	model.addAttribute("super", "this is a super admin user");
         }
@@ -145,48 +150,66 @@ public class UserController {
         return "redirect:/login?logout";
     }
     
-//    @RequestMapping("/admin/chores")
-//    public String home(HttpSession session, Model model, @RequestParam(value="priority", required=false) String priority) {
-//        // get user from session, save them in the model and return the home page
-//    	Long userId = (Long) session.getAttribute("userId");
-//    	User u = userService.findById(userId);
-//    	model.addAttribute("user", u);
-//    	if(priority==null) {
-//          		model.addAttribute("chores", choreService.allChores());
-//
-//       	} else if (priority.equals("descend")) { 
-//        		model.addAttribute("chores", choreService.allDescend());
-//
-//       	} else if (priority.equals("ascend")) {
-//        		model.addAttribute("chores", choreService.allAscend());
-//       	}
-//        	return "userdash.jsp";
-//    }
-    
-//    @RequestMapping("/chores/new")
-//    public String chore(@ModelAttribute("chore") Chore chore, Model model, HttpSession session) {
-//    	List<User> users = userService.allUsers();
-// 	    model.addAttribute("users", users);
-//    	return "admindash.jsp";
-//   
-//    }
-    
     @RequestMapping(value="/chores/new", method=RequestMethod.POST)
     public String createChore(@Valid @ModelAttribute("chore") Chore chore, BindingResult result, Model model, HttpSession session) {
        if (result.hasErrors()) {
            return "admindash.jsp";
        } else {
-    	   System.out.println("got here");
-    	   Long userId = (Long) session.getAttribute("userId");
-    	   User user = userService.findById(userId);
-    	   System.out.println(user);
-    	   model.addAttribute("user", user);
-    	   chore.setCreator(user);
-           choreService.createChore(chore);
-           System.out.println(chore.getId());
-           return "redirect:/admin";
+		   Long userId = (Long) session.getAttribute("userId");
+		   User user = userService.findById(userId);
+		   model.addAttribute("user", user);
+		   chore.setCreator(user);
+	       choreService.createChore(chore);
+	       return "redirect:/admin";
        }
 
     }
+    
+    @GetMapping("/chores/{id}/delete")
+   	public String deleteChore(@PathVariable("id")Long id) {
+   		choreService.deleteChore(id);
+   		return "redirect:/home";
+   	}
+    
+    @RequestMapping("chores/{idEdit}/edit")
+    public String edit(@ModelAttribute("chore") Chore chore, @PathVariable("idEdit") Long id, Principal principal, Model model, HttpSession session) {
+    	String email = principal.getName();
+        model.addAttribute("user", userService.findByEmail(email));
+        model.addAttribute("allUsers", userService.allUsers());
+        User user = userService.findByEmail(email);
+        session.setAttribute("userId", user.getId());
+    	Object chores = choreService.allDescend();
+		model.addAttribute("chores", chores);
+    	Chore choreToEdit = choreService.findOne(id);
+//    	Long currentUser = (Long) session.getAttribute("userId");
+//    	if (choreToEdit.getCreator().getId() != currentUser) {
+//    		return "redirect:/admin";
+//    	} else {
+    	List<User> users = userService.allUsers();
+    	model.addAttribute("users", users);
+    	model.addAttribute("chore", choreToEdit);
+    	return "/edit.jsp";  
+//    	}
+    }
+    
+    @PostMapping("/chores/{id}/edit")
+    public String editChore(@Valid@ModelAttribute("chore") Chore chore, BindingResult result, @PathVariable("id") Long id, Model model, HttpSession session) {
+    	if (result.hasErrors()) {
+    		List<User> users = userService.allUsers();
+    		model.addAttribute("users", users);
+            return "/edit.jsp";
+    	} else {
+    		Long currentUser = (Long) session.getAttribute("userId");
+    		User u = userService.findById(currentUser);
+    		chore.setCreator(u);
+    		choreService.updateChore(chore);
+    		return "redirect:/chores/{id}/edit";
+    	} 
+    }
+    
+    @GetMapping("/sunrise")
+   	public String sunRise() {
+   		return "sunrise.jsp";
+   	}
     
 }
