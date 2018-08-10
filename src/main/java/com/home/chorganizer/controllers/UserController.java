@@ -53,7 +53,7 @@ public class UserController {
 
     }
     
-     @RequestMapping("/login")
+    @RequestMapping("/login")
     public String login(@ModelAttribute("user") User user, @RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model, HttpSession session) {
     	if(logout != null) {
             model.addAttribute("logout", "Logout Successful!");
