@@ -53,7 +53,7 @@ public class UserController {
 
     }
     
-     @RequestMapping("/login")
+    @RequestMapping("/login")
     public String login(@ModelAttribute("user") User user, @RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model, HttpSession session) {
     	if(logout != null) {
             model.addAttribute("logout", "Logout Successful!");
@@ -74,12 +74,12 @@ public class UserController {
         if(userService.allUsers().size() == 0) {
         	User u = userService.saveSuper(user);
             session.setAttribute("userId", u.getId());
-            return "redirect:/";
+            return "redirect:/home";
         }
         else {
             User u = userService.savePleb(user);
             session.setAttribute("userId", u.getId());
-            return "redirect:/";
+            return "redirect:/home";
         }
     }   
     
@@ -137,8 +137,6 @@ public class UserController {
     public String delete(@PathVariable("id") Long id){
     	userService.deleteUser(id);
         return "redirect:/admin";
-        
-        // test comment added for github usage.
     }
     
     @RequestMapping("/logout")

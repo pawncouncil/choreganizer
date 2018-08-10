@@ -6,9 +6,13 @@ var mouseIsDownDivision = false;
 document.addEventListener('mousemove', function(e){ 
     mouse.x = e.clientX || e.pageX; 
     mouse.y = e.clientY || e.pageY 
-      updateDimensions();
+    updateDimensions();
 
+<<<<<<< HEAD
     //if(mouseIsDown) {
+=======
+    if(mouseIsDown) {
+>>>>>>> aa5f9badf0fb7f7d980c9fb50e31ffba2eb74d82
       document.getElementById("sun").style.background = '-webkit-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(242,248,247,1) 0%,rgba(249,249,28,1) 3%,rgba(247,214,46,1) 8%, rgba(248,200,95,1) 12%,rgba(201,165,132,1) 30%,rgba(115,130,133,1) 51%,rgba(46,97,122,1) 85%,rgba(24,75,106,1) 100%)';
       document.getElementById("sun").style.background = '-moz-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(242,248,247,1) 0%,rgba(249,249,28,1) 3%,rgba(247,214,46,1) 8%, rgba(248,200,95,1) 12%,rgba(201,165,132,1) 30%,rgba(115,130,133,1) 51%,rgba(46,97,122,1) 85%,rgba(24,75,106,1) 100%)';
       document.getElementById("sun").style.background = '-ms-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(242,248,247,1) 0%,rgba(249,249,28,1) 3%,rgba(247,214,46,1) 8%, rgba(248,200,95,1) 12%,rgba(201,165,132,1) 30%,rgba(115,130,133,1) 51%,rgba(46,97,122,1) 85%,rgba(24,75,106,1) 100%)';
@@ -57,7 +61,7 @@ document.addEventListener('mousemove', function(e){
         for(var i=0; i<clouds.length; i++) {
           clouds[i].style.left = Math.min(myWidth*(Math.pow(mouse.y,2)/Math.pow(myHeight/2,2)) * -1, 0);
         }
-      //}
+      }
 
       var stars = document.getElementsByClassName('star');
       for(var i=0; i<stars.length; i++) {
@@ -122,23 +126,19 @@ function startMove() {
 function stopMove() {
   mouseIsDown = false;
   mouseIsDownDivision = false;
-        var sky = document.getElementById("sun");
+  var sky = document.getElementById("sun");
 }
 
 function startDraggingDivision() {
-
   mouseIsDownDivision = true;
 }
 
 function windowResize() {
   updateDimensions();
   var skyHeight = document.getElementById("horizon").clientHeight;
-
-  
-
-
+ 
   // update to new sky height
   skyHeight = document.getElementById("sun").clientHeight;
   document.getElementById("waterDistance").style.height = myHeight - skyHeight;
-   document.getElementById("division").style.top = skyHeight;
+  document.getElementById("division").style.top = skyHeight;
 }

@@ -17,8 +17,6 @@ td, th {
 
  tr{background-color: #c0c0c0;}
 
- /* tr:hover {background-color: #ddd;}  */
-
 th {
     padding-top: 12px;
     padding-bottom: 12px;
@@ -26,8 +24,7 @@ th {
     background: #bdc3c7;  /* fallback for old browsers */
 	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
 	background: linear-gradient(to top, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
-    /* background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%); */
+
     color: #eaeaea;
 }
 
@@ -136,145 +133,3 @@ p{
 .wrapper a {
 	margin-left: 5px;
 }
-
-/* NEW CSS!!! */
-	.modal2 {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      padding-top: 100px; /* Location of the box */
-      left: 0;
-      top: 0;
-      width: 40%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0,0,0); /* Fallback color */
-      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-      margin-left: 400px;
-  }
-
-  /* Modal Content */
-  .modal-content2 {
-      background-color: #fefefe;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-  }
-
-  .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      padding-top: 100px; /* Location of the box */
-      left: 0;
-      top: 0;
-      width: 40%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0,0,0); /* Fallback color */
-      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-      margin-left: 400px;
-  }
-
-  /* Modal Content */
-  .modal-content {
-      background-color: #fefefe;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-  }
-
-  /* The Close Button */
-  .close {
-      color: #aaaaaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-  }
-
-  .close:hover,
-  .close:focus {
-      color: #000;
-      text-decoration: none;
-      cursor: pointer;
-  }
-  
-  body{
-      margin: 0;
-      padding: 0;
-  }
-  .header{
-      position: relative;
-      z-index: 100;
-      height: 45px;
-      text-align: center;
-      background-image: linear-gradient(to bottom, #070301, #171514, #222020, #2e2c2c, #3a3939);
-      background: #444; 
-      height: 45px;
-      padding-left: 10px;
-      padding-top: 10px;
-      width: auto;
-  }
-  a{
-      color: black;
-      text-decoration: none;
-      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-      font-size: 16px;
-  }
-  .logform{
-      height: 400px;
-      width: 350px;
-      display: inline-block;
-      vertical-align: top;
-      margin-left: 90px;
-  }
-  .regform{
-      height: 400px;
-      width: 350px;
-      display: inline-block;
-      vertical-align: top;
-      margin-left:130px;
-  }
-  .signintext{
-      text-align: center;
-  }
-  #myBtn2{
-      background-color:transparent;
-      display:inline-block;
-      cursor:pointer;
-      color:#ffffff;
-      font-family:Arial;
-      font-size:14px;
-      /* padding-left:31px;   */
-      text-decoration:none;
-      margin-left: 10px;
-  }
-  #myBtn{
-      background-color:transparent;
-      display:inline-block;
-      cursor:pointer;
-      color:#ffffff;
-      font-family:Arial;
-      font-size:14px;
-      padding-left:31px;
-      text-decoration:none;
-      margin-left: 370px;
-  }
-  #logo{
-      color: orangered;
-      font-family: 'Pacifico', cursive;
-      display: inline;
-      /* vertical-align: top; */
-      margin-left: 540px;
-      font-size: 30px;
-      margin-top: 15px;
-  }
-  .homebutton{
-      size: 7px;
-      color: white;
-  }
-  .logolink:hover{
-      text-decoration: none;
-  }
