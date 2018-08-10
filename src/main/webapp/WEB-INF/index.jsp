@@ -7,6 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Chorganizer</title>
+    <link rel="stylesheet" type="text/css" href="/css/homepage.css">
+    <link rel="stylesheet" type="text/css" href="/css/sunrise.css">
+	<script type="text/javascript" src="js/app.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
@@ -51,117 +54,8 @@
 	            });
 	        });
    	</script>
-   	<style>
-   	  body	{
-      	margin: 0;
-      	padding: 0;
-	  }
-	   
-	  a	{
-	      color: black;
-	      text-decoration: none;
-	      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-	      font-size: 16px;
-	  }
-	  
-	  .modal {
-	      display: none;
-	      position: fixed;
-	      z-index: 1;
-	      padding-top: 100px;
-	      left: 0;
-	      top: 0;
-	      width: 40%;
-	      height: 100%;
-	      overflow: auto;
-	      background-color: rgb(0,0,0);
-	      background-color: rgba(0,0,0,0.4);
-	      margin-left: 400px;
-	  }
-	
-	  .modal-content {
-	      background-color: #fefefe;
-	      margin: auto;
-	      padding: 20px;
-	      border: 1px solid #888;
-	      width: 80%;
-	  }
-	  
-	  .close {
-	      color: #aaaaaa;
-	      float: right;
-	      font-size: 28px;
-	      font-weight: bold;
-	  }
-	
-	  .close:hover, .close:focus {
-	      color: #000;
-	      text-decoration: none;
-	      cursor: pointer;
-	  }
-	    
-	  .header	{
-	      position: relative;
-	      z-index: 100;
-	      height: 45px;
-	      text-align: center;
-	      background: #444; 
-	      height: 45px;
-	      padding-left: 10px;
-	      padding-top: 10px;
-	      width: auto;
-	  }
-	  
-	  #myBtnTwo	{
-	      background-color:transparent;
-	      display:inline-block;
-	      cursor:pointer;
-	      color:#ffffff;
-	      font-family:Arial;
-	      font-size:14px;
-	      text-decoration:none;
-	      margin-left: 10px;
-	  }
-	  
-	  #myBtn	{
-	      background-color:transparent;
-	      display:inline-block;
-	      cursor:pointer;
-	      color:#ffffff;
-	      font-family:Arial;
-	      font-size:14px;
-	      text-decoration:none;
-	      margin-left: 370px;
-	  }
-	  
-	  #logo	{
-	      color: rgb(0, 225, 255);
-	      font-family: 'Amatic SC', cursive;
-	      vertical-align: top;
-	      margin-left: 500px;
-	      font-size: 35px;
-	      display: inline;
-	  }
-	  
-	  #logo:hover	{
-	  	color: white;
-	  }
-	  
-	  .homebutton	{
-	      size: 7px;
-	      color: white;
-	  }
-	  
-	  .homebutton:hover, #myBtn:hover, #myBtnTwo:hover {
-	  	color: rgb(0, 225, 255);
-	  }
-	  
-	  .logolink:hover {
-	      text-decoration: none;
-	  }
-   	</style>
 </head>
-<body>
+<body onmouseup="stopMove();" onresize="windowResize();">
  <!-- The Header -->
     <div class="header">
         <a class="homebutton" href="/home"><i class="fas fa-home"></i></a>
@@ -171,10 +65,14 @@
     </div>
     
     <c:if test="${logout != null}">
-        <p><c:out value="${logout}"></c:out></p>
+   		<div class="alert alert-danger">
+        	<p><c:out value="${logout}"></c:out></p>
+        </div>
     </c:if>
     <c:if test="${logError != null}">
-	     <p>${logError}</p>
+	    <div class="alert alert-danger">
+		     <p>${logError}</p>
+		</div>
 	</c:if>
     <!-- The Modal for Login -->
     <div id="myModal" class="modal">
@@ -216,6 +114,52 @@
 		   </fieldset> 
    		</div>
    </div>
-    
+   <!-- SunSet Backgound -->
+    <div id="starsContainer" onmousedown="startMove();" onmouseup="stopMove();">
+    	<div id="stars" onmousedown="startMove();" onmouseup="stopMove();"></div>
+  	</div>
+
+    <div id="sun" onmousedown="startMove();" onmouseup="stopMove();"></div>
+
+  <div id="sunDay" onmousedown="startMove();" onmouseup="stopMove();"></div>
+
+  <div id="sunSet" onmousedown="startMove();" onmouseup="stopMove();"></div>
+
+  <div id="sky" onmousedown="startMove();" onmouseup="stopMove();"></div>
+
+  <div class="star" style="left: 250px; top: 30px;"></div>
+  <div class="star" style="left: 300px; top: 25px;"></div>
+  <div class="star" style="right: 40px; top: 40px;"></div>
+  <div class="star" style="right: 80px; top: 45px;"></div>
+  <div class="star" style="right: 120px; top: 20px;"></div>
+
+  <div id="horizon" onmousedown="startMove();" onmouseup="stopMove();"></div>
+
+  <div id="horizonNight" onmousedown="startMove();" onmouseup="stopMove();"></div>
+
+  <div id="moon" onmousedown="startMove();" onmouseup="stopMove();"></div>
+  
+  <div id="mountainRange">
+    <div id="mountain" onmousedown="startMove();" onmouseup="stopMove();">
+  </div>
+
+  </div>
+
+  <div id="division" onmousedown="startDraggingDivision();" onmouseup="stopMove();">
+
+  </div>
+
+  <div id="water" onmousedown="startMove();" onmouseup="stopMove();"></div>
+
+  <div id="waterReflectionContainer" onmousedown="startMove();" onmouseup="stopMove();">
+    <div id="waterReflectionMiddle" onmousedown="startMove();" onmouseup="stopMove();">
+
+    </div>
+  </div>
+  <div id="waterDistance"  onmousedown="startMove();" onmouseup="stopMove();"></div>
+  <div id="darknessOverlaySky"  onmousedown="startMove();" onmouseup="stopMove();"></div>
+  <div id="darknessOverlay"></div>
+  <div id="oceanRippleContainer"></div>
+  <div id="oceanRipple"></div>
 </body>
 </html>

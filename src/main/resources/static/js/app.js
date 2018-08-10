@@ -122,7 +122,7 @@ function startMove() {
 function stopMove() {
   mouseIsDown = false;
   mouseIsDownDivision = false;
-        var sky = document.getElementById("sun");
+  var sky = document.getElementById("sun");
 }
 
 function startDraggingDivision() {
@@ -140,5 +140,5 @@ function windowResize() {
   // update to new sky height
   skyHeight = document.getElementById("sun").clientHeight;
   document.getElementById("waterDistance").style.height = myHeight - skyHeight;
-   document.getElementById("division").style.top = skyHeight;
+  document.getElementById("division").style.top = skyHeight;
 }
