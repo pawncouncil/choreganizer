@@ -9,11 +9,11 @@
     <title>Chorganizer</title>
     <link rel="stylesheet" type="text/css" href="/css/homepage.css">
     <link rel="stylesheet" type="text/css" href="/css/sunrise.css">
-	<script type="text/javascript" src="js/app.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/app.js"></script>
     <script>
 	    $(document).ready(function(){
 		    	// Get the modal
@@ -26,12 +26,14 @@
 	            $("#myBtn").click(function() {
 	                $(modal).show()
 	                $(modal2).hide();
+	                $("#loginEmail").focus();
 	            });
 	            
 	            // When the user clicks the register button, open the modal
 	            $("#myBtnTwo").click(function() {
 	                $(modal2).show();
 	                $(modal).hide();
+	                $("#email").focus();
 	            });
 	
 	            // When the user clicks on <span> (x), close the modal
@@ -81,7 +83,7 @@
 	    	<span class="close">&times;</span>
 	    	<h1>Login</h1>
 		    <form method="POST" action="/login">
-		        <p>Email: </p><input type="text" name="username"/>
+		        <p>Email: </p><input type="text" id="loginEmail" name="username"/>
 		        <p>Password: </p><input type="password" name="password"/>
 		        <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		        <br><br><input type="submit" value="Login" class="btn btn-dark"/>
