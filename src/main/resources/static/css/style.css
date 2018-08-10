@@ -1,11 +1,14 @@
-table {
+.scroll {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse; 
-    width: 100%;
-    height: 100px;
+    height: 200px;
     overflow: scroll;
-    
+    overflow-y: visible;
+    overflow-x: hidden;
+    margin-bottom: 15px;
 }
+
+
 
 td, th {
     border: 1px solid #b1b1b1;
@@ -69,6 +72,11 @@ input[type=submit] {
     cursor: pointer;
     margin-left: 5px;
 }
+
+.mountains{
+	margin-top: 100px;
+}
+
 
 .button:hover{
 	background-color: black;

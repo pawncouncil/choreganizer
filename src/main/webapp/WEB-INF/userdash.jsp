@@ -20,7 +20,7 @@
 <body>
     <div class="container">
         <a href="/logout" class="pull-right">Logout</a>
-        <h1>Welcome,${user.first} ${user.last}</h1>
+        <h1>Welcome Home ${user.first}!</h1>
         <table style="text-align: left; outline: 1px black solid;">
             <tr style="margin: 5px;">
                 <td style="padding: 5px;">First Name:</td>
@@ -44,7 +44,7 @@
             </tr>
         </table>
 
-		<table style="text-align: left; outline: 1px black solid;">
+		<table class="table table-ruled table-striped">
 			<thead>
 			  <tr>
 			    <th>Chore</th>
@@ -71,7 +71,7 @@
 				    <c:when test="${chore.assignee == user }">
 				    <td><a href="/chores/${chore.id}/delete">Completed</a></td></c:when>
 				    <c:otherwise>
-				    <td><a href="/sunrise">Still dirty</a></td></c:otherwise>
+				    <td><a href="/sunrise">Not Completed</a></td></c:otherwise>
 			    </c:choose>
 			  </tr>
 			</c:forEach>

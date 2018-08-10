@@ -41,6 +41,9 @@ public class Chore {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="assigneeId")
 	private User assignee;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="house_id")
+	private House house;
 	
 	public Chore() {}
 	
@@ -52,6 +55,14 @@ public class Chore {
 		this.priority = priority;
 	}
 	
+	public House getHouse() {
+		return house;
+	}
+
+	public void setHouse(House house) {
+		this.house = house;
+	}
+
 	@PrePersist
     protected void onCreate(){
         this.createdAt = new Date();

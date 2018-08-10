@@ -18,14 +18,13 @@
 
 </head>
 <body style="width: 100%; height: 100%; margin: 0; padding: 0" onmouseup="stopMove();" onresize="windowResize();">
-
+	
   <div id="starsContainer" onmousedown="startMove();" onmouseup="stopMove();">
     <div id="stars" onmousedown="startMove();" onmouseup="stopMove();">
     </div>
   </div>
 
     <div id="sun" onmousedown="startMove();" onmouseup="stopMove();">
-	<a href="/admin">Home</a>
     </div>
 
   <div id="sunDay" onmousedown="startMove();" onmouseup="stopMove();">
@@ -75,5 +74,6 @@
   <div id="oceanRippleContainer">
  </div>
   <div id="oceanRipple"></div>
+  <div style="margin-top: 150px; class="mountains"><img src="/images/cascades.png"></div>
 </body>
 </html>

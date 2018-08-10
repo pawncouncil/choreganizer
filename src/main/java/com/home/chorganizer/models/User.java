@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -49,8 +50,17 @@ public class User {
     private Date createdAt;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    public House getHouse() {
+		return house;
+	}
+	public void setHouse(House house) {
+		this.house = house;
+	}
+	@DateTimeFormat(pattern="yyyy-MM-dd")
     private Date lastSignIn;
+    @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="house_id")
+	private House house;
     @OneToMany(mappedBy="creator", fetch = FetchType.LAZY)
     private List<Chore> createdChores;
     @OneToMany(mappedBy="assignee", fetch = FetchType.LAZY)
