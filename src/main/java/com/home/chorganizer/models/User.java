@@ -17,14 +17,11 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
-
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name="users")
 public class User {
@@ -34,16 +31,15 @@ public class User {
     private Long id;
     @Email(message="Invalid email format. Ex: user@user.com")
     private String email;
-    @Size(min=1, max=64, message="Password must be 8-16 characters in length")
+    @Size(min=1, max=64, message="First name can not be empty")
     private String first;
-    @Size(min=1, max=64)
+    @Size(min=1, max=64, message="Last name can not be empty")
     private String last;
-    @Size(min=10)
+    @Size(min=12, message="Phone number must be 10 digits.")
     private String phone;
-	@Size(min=8)
+	@Size(min=8, message="Password must be at least 8 characters")
     private String password;
     @Transient
-    @Size(min=8)
     private String confirm;
     @Column(updatable=false)
     @DateTimeFormat(pattern="yyyy-MM-dd")

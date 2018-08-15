@@ -235,9 +235,4 @@ public class UserController {
     	} 
     }
     
-    @GetMapping("/sunrise")
-   	public String sunRise() {
-   		return "sunrise.jsp";
-   	}
-    
 }

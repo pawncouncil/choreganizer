@@ -186,6 +186,7 @@
 	  <div id="darknessOverlay"></div>
 	  <div id="oceanRippleContainer"></div>
 	  <div id="oceanRipple"></div>
+	  <div style="margin-top: 150px;" class="mountains"><img src="/images/cascades.png"></div>
   </div>
 </body>
 </html>
