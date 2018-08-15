@@ -3,6 +3,8 @@ package com.home.chorganizer.controllers;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -27,6 +29,8 @@ import com.home.chorganizer.validator.UserValidator;
 
 @Controller
 public class UserController {
+	
+    
     private UserService userService;
     private RoleRepository roleRepository;
     private UserValidator userValidator;
@@ -66,22 +70,48 @@ public class UserController {
     
     
     @PostMapping("/register")
-    public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session) {
+    public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, @RequestParam("password") String password, Model model, HttpSession session, HttpServletRequest request) {
         userValidator.validate(user, result);
         if(result.hasErrors()) {
             return "index.jsp";
         }
         if(userService.allUsers().size() == 0) {
         	User u = userService.saveSuper(user);
+        	try {
+        		request.login(u.getEmail(), password);
+        	} catch(ServletException e) {
+        		// can't fail
+        	}
             session.setAttribute("userId", u.getId());
             return "redirect:/home";
         }
         else {
             User u = userService.savePleb(user);
+            try {
+        		request.login(u.getEmail(), password);
+        	} catch(ServletException e) {
+        		// can't fail
+        	}
             session.setAttribute("userId", u.getId());
             return "redirect:/home";
         }
-    }   
+    }
+    
+    @RequestMapping("/addhouse")
+    public String addHouse(Principal principal, Model model) {
+    	String email = principal.getName();
+    	if(email == null) {
+    		return "redirect:/login";
+    	}
+    	User user = userService.findByEmail(email);
+    	if(user != null && user.getHouse() == null) {
+    		model.addAttribute("user", user);
+    		return "addHouse.jsp";
+    	} else {
+    		return "redirect:/home";
+    	}
+    	
+    }
     
     @RequestMapping(value= {"/", "/home"})
     public String user(@ModelAttribute("chore") Chore chore, HttpSession session, Principal principal, Model model, @RequestParam(value="priority", required=false) String priority) {
