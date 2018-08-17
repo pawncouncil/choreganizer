@@ -42,14 +42,19 @@
 	            });
 	
 	            //closes alert box
-	            $("#logout").click(function() {
+	            $("#logout").click(function(e) {
 	            	$(".alert").hide();
+	            	e.stopPropagation();
 	            });
-	            $("#logError").click(function() {
+	            $("#logError").click(function(e) {
 	            	$(".alert").hide();
+	            	e.stopPropagation();
 	            });
-	            
-	            
+	            $("#regError").click(function(e) {
+	            	$(".alert").hide();
+	            	e.stopPropagation();
+	            });
+	   
 	            // When the user clicks on <span> (x), close the modal
 	            $("#closeLogin").click(function() {
 	            	$(modal).hide();
@@ -63,8 +68,6 @@
 	
 	            // When the user clicks anywhere outside of the modal, close it
 	            $(document).click(function(event) {
-	            	console.log(modal.style.display);
-	            	console.log(event.target)
 	                if ( $('#logForm').has(event.target).length == 0 && modal.style.display == 'block' ) {
 	                	$(modal).hide();
 	                	eventStart();
@@ -82,20 +85,34 @@
     <div class="header">
         <a class="homebutton" href="/home"><i class="fas fa-home"></i></a>
         <a href="/home"class="logolink"><h1 id="logo">Choreganizer</h1></a>
-        <a id="myBtn" >Login</a>
-        <a id="myBtnTwo" >Register</a>
+        <c:if test="${sessionScope.userId == null}">
+	        <a id="myBtn" >Login</a>
+	        <a id="myBtnTwo" >Register</a>
+	    </c:if>
+	    <c:if test="${sessionScope.userId != null}">
+	    	<a href="/logout" id="logoutUser">Logout</a>
+	    </c:if>
     </div>
-    
+    <!-- Logout Alert -->
     <c:if test="${logout != null}">
    		<div class="alert alert-danger">
         	<c:out value="${logout}"></c:out>
         	<span class="close" id="logout">&times;</span>
         </div>
     </c:if>
+    <!-- Invalid Login Alert -->
     <c:if test="${logError != null}">
 	    <div class="alert alert-danger">
 		     ${logError}
 		     <span class="close" id="logError">&times;</span>
+		</div>
+	</c:if>
+	<!-- Invalid Registration Alert -->
+	<c:set var="formErrors"><form:errors path="user.*"/></c:set>
+	<c:if test="${not empty formErrors}">
+		<div class="alert alert-danger">
+			<span class="close" id="regError">&times;</span>
+			<form:errors path="user.*"/>
 		</div>
 	</c:if>
     <!-- The Modal for Login -->
@@ -120,19 +137,18 @@
             <span class="close" id="closeReg">&times;</span>
            	<h1>Register</h1>
 			<fieldset>
-			    <p><form:errors path="user.*"/></p>
 			    <form:form method="POST" action="/register" modelAttribute="user">
-			        <p><form:label path="email">Email: </form:label><br><form:input path="email"/></p>
-			        <p><form:label path="first">First Name: </form:label><br><form:input path="first"/></p>
-			        <p><form:label path="last">Last Name: </form:label><br><form:input path="last"/></p>
+			        <p><form:label path="email">Email: </form:label><br><form:input path="email"/><br><form:errors path="email" class="text text-danger"/></p>
+			        <p><form:label path="first">First Name: </form:label><br><form:input path="first"/><br><form:errors path="first" class="text text-danger"/></p>
+			        <p><form:label path="last">Last Name: </form:label><br><form:input path="last"/><br><form:errors path="last" class="text text-danger"/></p>
 			        <form:label path="phone">Phone: </form:label><br>
 		    		<p><form:input type="tel" path="phone" name="phone"
 			           placeholder="123-456-7890"
 			           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
 			           required= "true" />
-			   	 	<span class="validity"></span></p>
-			        <p><form:label path="password">Password: </form:label><br><form:password path="password"/></p>
-			        <p><form:label path="confirm">Confirm Password: </form:label><br><form:password path="confirm"/></p>
+			   	 	<span class="validity"></span><br><form:errors path="phone" class="text text-danger"/></p>
+			        <p><form:label path="password">Password: </form:label><br><form:password path="password"/><br><form:errors path="password" class="text text-danger"/></p>
+			        <p><form:label path="confirm">Confirm Password: </form:label><br><form:password path="confirm"/><br><form:errors path="confirm" class="text text-danger"/></p>
 			        <input type="submit" value="Register" class="btn btn-dark"/>
 			    </form:form>
 		   </fieldset> 
@@ -167,7 +183,7 @@
 	  <div id="mountainRange">
 	    <div id="mountain" onmousedown="startMove();" onmouseup="stopMove();">
 	  </div>
-	
+	<!-- Sky/Ground Divider -->
 	  </div>
 	
 	  <div id="division" onmouseup="stopMove();">
@@ -176,17 +192,12 @@
 	
 	  <div id="water" onmousedown="startMove();" onmouseup="stopMove();"></div>
 	
-	  <div id="waterReflectionContainer" onmousedown="startMove();" onmouseup="stopMove();">
-	    <div id="waterReflectionMiddle" onmousedown="startMove();" onmouseup="stopMove();">
-	
-	    </div>
-	  </div>
 	  <div id="waterDistance"  onmousedown="startMove();" onmouseup="stopMove();"></div>
 	  <div id="darknessOverlaySky"  onmousedown="startMove();" onmouseup="stopMove();"></div>
 	  <div id="darknessOverlay"></div>
 	  <div id="oceanRippleContainer"></div>
 	  <div id="oceanRipple"></div>
-	  <div style="margin-top: 150px;" class="mountains"><img src="/images/cascades.png"></div>
+	  <div id="mountains"><img src="/images/cascades.png"></div>
   </div>
 </body>
 </html>

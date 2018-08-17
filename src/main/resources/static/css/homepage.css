@@ -1,9 +1,9 @@
-  	  body	{
-      	margin: 0;
-      	padding: 0;
-		overflow: hidden;
-		background-color: black;
-	  }
+  	 .content {
+  	 	background-color: #1f1f1f;
+  	 	color: lightgrey;
+  	 	height: 100%;
+  	 	width: 100%;
+  	 }
 	   
 	  a	{
 	      color: black;
@@ -36,6 +36,10 @@
 	      z-index: 20009;
 	  }
 	  
+	  .text-danger {
+	  		font-size: .8em;	
+	  }
+	  
 	  .close {
 	      color: #aaaaaa;
 	      float: right;
@@ -56,14 +60,14 @@
 	      z-index: 20000;
 	      height: 45px;
 	      text-align: center;
-	      background: #444; 
+	      background: #1f1f1f; 
 	      height: 45px;
 	      padding-left: 10px;
 	      padding-top: 10px;
 	      width: auto;
 	  }
 	  
-	  #myBtnTwo	{
+	  #myBtn, #myBtnTwo, #logoutUser {
 	      background-color:transparent;
 	      display:inline-block;
 	      cursor:pointer;
@@ -71,18 +75,18 @@
 	      font-family:Arial;
 	      font-size:14px;
 	      text-decoration:none;
-	      margin-left: 10px;
 	  }
 	  
 	  #myBtn	{
-	      background-color:transparent;
-	      display:inline-block;
-	      cursor:pointer;
-	      color:#ffffff;
-	      font-family:Arial;
-	      font-size:14px;
-	      text-decoration:none;
 	      margin-left: 370px;
+	  }
+	  
+	  #myBtnTwo {
+	  	 margin-left: 10px;
+	  }
+	  
+	  #logoutUser {
+	      margin-left: 400px;
 	  }
 	  
 	  #logo	{
@@ -114,4 +118,28 @@
 	  .alert{
 	  	z-index: 20000;
 	  	width: 400px;
+	  }
+	  
+	  .form {
+	   width: 25%;
+	   display: inline-block;
+	   margin: 5%;
+	   background: linear-gradient(#ffffff, #f4f2f2);
+	   color: #1f1f1f;
+	   padding: 20px;
+	   text-align: center;
+	   vertical-align: top;
+	  }
+	  
+	  #joinHouse, #createHouse{
+	  	text-align: center;
+	  	margin-top: 10px;
+	  }
+	  
+	  #joinHouse img, #createHouse img {
+	  	height: 400px;
+	  }
+	  
+	  hr {
+	  	background-color: lightgrey;
 	  }

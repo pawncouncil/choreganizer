@@ -8,6 +8,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
@@ -22,21 +23,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="households")
 public class House {
-
 	@Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	@Size(min=1, max=64)
+	@Size(min=1, message="Name must not be empty")
 	private String name;
-	@Size(min=1, max=64)
 	@OneToMany(mappedBy="house", fetch = FetchType.LAZY)
     private List<User> members;
 	@OneToMany(mappedBy="house", fetch = FetchType.LAZY)
     private List<Chore> chores;
-	@Size(min=8)
+	@Size(min=8, message="Password must be at least 8 characters")
     private String password;
 	@Transient
-    @Size(min=8)
     private String confirm;
 	@ElementCollection
 	@OrderColumn(name="sequence")

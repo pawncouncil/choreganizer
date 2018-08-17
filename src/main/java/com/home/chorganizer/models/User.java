@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -27,7 +28,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class User {
     
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Email(message="Invalid email format. Ex: user@user.com")
     private String email;
@@ -41,26 +42,31 @@ public class User {
     private String password;
     @Transient
     private String confirm;
-    @Column(updatable=false)
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date createdAt;
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date updatedAt;
-    public House getHouse() {
-		return house;
-	}
-	public void setHouse(House house) {
-		this.house = house;
-	}
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "users_roles", 
+        joinColumns = @JoinColumn(name = "user_id"), 
+        inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles;
+    
 	@DateTimeFormat(pattern="yyyy-MM-dd")
     private Date lastSignIn;
     @ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="house_id")
+	@JoinColumn(name="house_id", referencedColumnName = "id")
 	private House house;
     @OneToMany(mappedBy="creator", fetch = FetchType.LAZY)
     private List<Chore> createdChores;
     @OneToMany(mappedBy="assignee", fetch = FetchType.LAZY)
     private List<Chore> assignedChores;
+    @Column(updatable=false)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date createdAt;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date updatedAt;
+    
+    
+    public User() {}
+    
     public List<Chore> getCreatedChores() {
 		return createdChores;
 	}
@@ -73,17 +79,6 @@ public class User {
 	public void setAssignedChores(List<Chore> assignedChores) {
 		this.assignedChores = assignedChores;
 	}
-	@ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "users_roles", 
-        joinColumns = @JoinColumn(name = "user_id"), 
-        inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
-    
-    public User() {
-    	this.updatedAt = new Date();
-    	// this.lastSignIn = new Date();
-    }
     public Long getId() {
         return id;
     }
@@ -101,6 +96,12 @@ public class User {
 	}
 	public String getPhone() {
 		return phone;
+	}
+	 public House getHouse() {
+			return house;
+	}
+	public void setHouse(House house) {
+		this.house = house;
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
@@ -150,10 +151,12 @@ public class User {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+   
     
     @PrePersist
     protected void onCreate(){
         this.createdAt = new Date();
+        this.updatedAt = new Date();
     }
     @PreUpdate
     protected void onUpdate(){

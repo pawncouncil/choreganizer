@@ -24,7 +24,6 @@ public class Chore {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
 	private Long id;
 	@Size(min=1, message="Please enter a chore.")
 	private String title;
@@ -42,7 +41,7 @@ public class Chore {
 	@JoinColumn(name="assigneeId")
 	private User assignee;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="house_id")
+	@JoinColumn(name="house_id", referencedColumnName = "id")
 	private House house;
 	
 	public Chore() {}
@@ -62,15 +61,6 @@ public class Chore {
 	public void setHouse(House house) {
 		this.house = house;
 	}
-
-	@PrePersist
-    protected void onCreate(){
-        this.createdAt = new Date();
-    }
-    @PreUpdate
-    protected void onUpdate(){
-        this.updatedAt = new Date();
-    }
 
 	public Long getId() {
 		return id;
@@ -144,6 +134,14 @@ public class Chore {
 		this.assignee = assignee;
 	}
 	
+	@PrePersist
+    protected void onCreate(){
+        this.createdAt = new Date();
+    }
+    @PreUpdate
+    protected void onUpdate(){
+        this.updatedAt = new Date();
+    }
 }
 	
 	
