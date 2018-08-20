@@ -20,11 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.home.chorganizer.models.Chore;
-import com.home.chorganizer.models.Role;
+import com.home.chorganizer.models.House;
 import com.home.chorganizer.models.User;
-import com.home.chorganizer.repositories.RoleRepository;
 import com.home.chorganizer.services.ChoreService;
+import com.home.chorganizer.services.HouseService;
 import com.home.chorganizer.services.UserService;
+import com.home.chorganizer.validator.HouseValidator;
 import com.home.chorganizer.validator.UserValidator;
 
 @Controller
@@ -32,29 +33,19 @@ public class UserController {
 	
     
     private UserService userService;
-    private RoleRepository roleRepository;
     private UserValidator userValidator;
 	private ChoreService choreService;
-    private void makeRoles() {
-    	if(roleRepository.findAll().size() == 0) {
-    		Role user = new Role();
-    		user.setType("ROLE_USER");
-    		roleRepository.save(user);
-    		Role admin = new Role();
-    		admin.setType("ROLE_ADMIN");
-    		roleRepository.save(admin);
-    		Role superb = new Role();
-    		superb.setType("ROLE_SUPER");
-    		roleRepository.save(superb);
-    	}
-    }
-    public UserController(UserService userService, UserValidator userValidator, RoleRepository roleRepository, ChoreService choreService) {
+	private HouseService houseService;
+	private HouseValidator houseValidator;
+	
+    public UserController(UserService userService, UserValidator userValidator,ChoreService choreService, HouseService houseService, HouseValidator houseValidator) {
         this.userService = userService;
-        this.roleRepository = roleRepository;
         this.choreService = choreService;
         this.userValidator = userValidator;
-        makeRoles();
-
+        this.houseService = houseService;
+        this.houseValidator = houseValidator;
+        // Create roles on boot up
+        this.userService.makeRoles();
     }
     
     @RequestMapping("/login")
@@ -93,24 +84,59 @@ public class UserController {
         		// can't fail
         	}
             session.setAttribute("userId", u.getId());
-            return "redirect:/home";
+            return "redirect:/addHouse";
         }
     }
     
-    @RequestMapping("/addhouse")
-    public String addHouse(Principal principal, Model model) {
+    // Add House Form for new users
+    @RequestMapping(value="/addHouse", method=RequestMethod.GET)
+    public String addHouse(@ModelAttribute("house") House house, Principal principal, Model model, @RequestParam(value="error", required=false) String error) {
     	String email = principal.getName();
-    	if(email == null) {
+    	User user = userService.findByEmail(email);
+    	if(user == null) { // user must be logged in
     		return "redirect:/login";
     	}
-    	User user = userService.findByEmail(email);
-    	if(user != null && user.getHouse() == null) {
+    	if(user.getHouse() == null && user.getRoles().size() <= 2) { //user has no current house, and not be the super user
     		model.addAttribute("user", user);
+    		if(error != null) {
+    			model.addAttribute("logError", "Invalid house credentials, please try again.");
+    		}
     		return "addHouse.jsp";
-    	} else {
+    	} else { //user has house or is an admin
+    		if(user.getRoles().size() >= 2) { // admin go elsewhere
+            	return "redirect:/admin";
+            }
     		return "redirect:/home";
     	}
     	
+    }
+    // connect to a existing house
+    @RequestMapping(value="/addHouse", method=RequestMethod.POST)
+    public String connectHouse(Principal principal, @RequestParam("houseName") String name, @RequestParam("housePassword") String password) {
+    	if(houseService.authenticateHouse(name, password)) { //successfully signed up for house
+    		House house = houseService.findByName(name);
+    		String email = principal.getName();
+    		User member = userService.findByEmail(email);
+    		userService.addHouse(house, member);
+    		return "redirect:/home";
+    	} else { //failed to validate house
+    		return "redirect:/addHouse?error=true";
+    	}
+    }
+    
+    // create a new house
+    @RequestMapping(value="/createHouse", method=RequestMethod.POST)
+    public String createHouse(@Valid @ModelAttribute("house") House house, BindingResult result, HttpSession session, Principal principal) {
+    	houseValidator.validate(house, result);
+    	if(result.hasErrors()) { //return user to form to fix errors
+    		return "addHouse.jsp";
+    	} else { // create house and add member
+    		House home = houseService.createHouse(house);
+    		String email = principal.getName();
+    		User member = userService.findByEmail(email);
+    		userService.addHouse(home, member);
+    		return "redirect:/home";
+    	}
     }
     
     @RequestMapping(value= {"/", "/home"})
@@ -120,6 +146,10 @@ public class UserController {
     		return "redirect:/login";
     	}
     	User user = userService.findByEmail(email);
+    	House house = user.getHouse();
+    	if(house == null) {
+    		return "redirect:/addHouse";
+    	}
     	model.addAttribute("user", user);
     	Object chores = choreService.allDescend();
 		model.addAttribute("chores", chores);
@@ -127,7 +157,8 @@ public class UserController {
         	return "redirect:/admin";
         }
         return "userdash.jsp";
-    } 
+    }
+    
     @RequestMapping("/admin")
     public String admin(@ModelAttribute("chore") Chore chore, HttpSession session, Principal principal, Model model, @RequestParam(value="priority", required=false) String priority) {
         String email = principal.getName();
@@ -146,11 +177,6 @@ public class UserController {
         return "admindash.jsp";
     }    
  
-    
-    
-    
-    
-    
     @RequestMapping("/make-admin/{id}")
     public String makeAd(@PathVariable("id") Long id){
         User user = userService.findById(id);

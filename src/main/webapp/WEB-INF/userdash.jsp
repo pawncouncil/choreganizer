@@ -18,65 +18,73 @@
 
 </head>
 <body>
-    <div class="container">
-        <a href="/logout" class="pull-right">Logout</a>
-        <h1>Welcome Home ${user.first}!</h1>
-        <table style="text-align: left; outline: 1px black solid;">
-            <tr style="margin: 5px;">
-                <td style="padding: 5px;">First Name:</td>
-                <td style="padding: 5px;">${user.first}</td>
-            </tr>
-            <tr style="margin: 5px;">
-                <td style="padding: 5px;">Last Name:</td>
-                <td style="padding: 5px;">${user.last}</td>
-            </tr>
-            <tr style="margin: 5px;">
-                <td style="padding: 5px;">Email:</td>
-                <td style="padding: 5px;">${user.email}</td>
-            </tr>
-            <tr style="margin: 5px;">
-                <td style="padding: 5px;">Sign Up Date:</td>
-                <td style="padding: 5px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.createdAt}"></fmt:formatDate></td>
-            </tr>
-            <tr style="margin: 5px;">
-                <td style="padding: 5px;">Last Sign In:</td>
-                <td style="padding: 5px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.lastSignIn}"></fmt:formatDate></td>
-            </tr>
-        </table>
-
-		<table class="table table-ruled table-striped">
-			<thead>
-			  <tr>
-			    <th>Chore</th>
-			    <th>Description</th>
-			    <!-- <th>Creator</th> -->
-			    <th>Assignee</th>
-			    <th>Priority</th>
-			    <th>Status</th>
-			  </tr>
-			</thead>
-			<tbody>
-			 <c:forEach items="${chores}" var="chore"> 
-			  <tr>
-			  	<td>${chore.title}</td>
-			    <td>${chore.description}</td>
-			    <td>${chore.assignee.first}</td>
-			    <c:if test="${chore.priority == 1 }">
-			    <td><c:out value="Low"/></td></c:if>
-			    <c:if test="${chore.priority == 2 }">
-			    <td><c:out value="Medium"/></td></c:if>
-			    <c:if test="${chore.priority == 3 }">
-			    <td><c:out value="High"/></td></c:if>
-			    <c:choose>
-				    <c:when test="${chore.assignee == user }">
-				    <td><a href="/chores/${chore.id}/delete">Completed</a></td></c:when>
-				    <c:otherwise>
-				    <td><a href="#">Not Completed</a></td></c:otherwise>
-			    </c:choose>
-			  </tr>
-			</c:forEach>
-		  </tbody>
-		</table>
+	<div id="wrapper">
+	<div class="headers">
+        <h1 id="logo">Choreganizer</h1>
+         <a href="/logout" class="headera">Logout</a>
+    </div>
+	    <div class="user">
+	        <a href="/logout" class="pull-right">Logout</a>
+	        <h1>Welcome Home ${user.first}!</h1>
+	        <table style="text-align: left; outline: 1px black solid;">
+	            <tr style="margin: 5px;">
+	                <td style="padding: 5px;">First Name:</td>
+	                <td style="padding: 5px;">${user.first}</td>
+	            </tr>
+	            <tr style="margin: 5px;">
+	                <td style="padding: 5px;">Last Name:</td>
+	                <td style="padding: 5px;">${user.last}</td>
+	            </tr>
+	            <tr style="margin: 5px;">
+	                <td style="padding: 5px;">Email:</td>
+	                <td style="padding: 5px;">${user.email}</td>
+	            </tr>
+	            <tr style="margin: 5px;">
+	                <td style="padding: 5px;">Sign Up Date:</td>
+	                <td style="padding: 5px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.createdAt}"></fmt:formatDate></td>
+	            </tr>
+	            <tr style="margin: 5px;">
+	                <td style="padding: 5px;">Last Sign In:</td>
+	                <td style="padding: 5px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.lastSignIn}"></fmt:formatDate></td>
+	            </tr>
+	        </table>
+	
+			<div class="scroll2">
+				<table class="table table-ruled">
+					<thead>
+					  <tr>
+					    <th>Chore</th>
+					    <th>Description</th>
+					    <!-- <th>Creator</th> -->
+					    <th>Assignee</th>
+					    <th>Priority</th>
+					    <th>Status</th>
+					  </tr>
+					</thead>
+					<tbody>
+					 <c:forEach items="${chores}" var="chore"> 
+					  <tr>
+					  	<td>${chore.title}</td>
+					    <td>${chore.description}</td>
+					    <td>${chore.assignee.first}</td>
+					    <c:if test="${chore.priority == 1 }">
+					    <td><c:out value="Low"/></td></c:if>
+					    <c:if test="${chore.priority == 2 }">
+					    <td><c:out value="Medium"/></td></c:if>
+					    <c:if test="${chore.priority == 3 }">
+					    <td><c:out value="High"/></td></c:if>
+					    <c:choose>
+						    <c:when test="${chore.assignee == user }">
+						    <td><a href="/chores/${chore.id}/delete">Completed</a></td></c:when>
+						    <c:otherwise>
+						    <td><a href="#">Not Completed</a></td></c:otherwise>
+					    </c:choose>
+					  </tr>
+					</c:forEach>
+				  </tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

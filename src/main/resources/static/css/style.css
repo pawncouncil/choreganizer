@@ -94,15 +94,17 @@ thead  th{
 .scroll tbody td, thead th {
     width: 20%;
     float: left;
+    background-color: #fafafa;
 }
 
 .scroll2 tbody td, thead th {
     width: 20%;
     float: left;
+    background-color: #fafafa;
 }
 
 tr{
- 	background-color: #c0c0c0;
+ 	background-color: #fafafa;
  	width: 100%;
  }
 
@@ -171,6 +173,7 @@ th {
 input[type=text], select, textarea {
     width: 341px;
     padding: 6px;
+    background-color: #fafafa;
     border: 1px solid #ccc;
     border-radius: 4px;
   	resize: vertical;
@@ -224,11 +227,19 @@ p{
 
 .container {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    /* border-radius: 5px; */ 
-    /* background: #bdc3c7;  fallback for old browsers
+    /* border-radius: 5px;  
+    background: #bdc3c7;  fallback for old browsers
 	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  Chrome 10-25, Safari 5.1-6
 	background: linear-gradient(to top, #2c3e50, #bdc3c7); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+
-	padding: 20px; */
+	padding: 20px;*/ 
+}
+
+.user {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	background: #bdc3c7;
+	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  
+	background: linear-gradient(to top, #2c3e50, #bdc3c7); 
+	padding: 20px;
 }
  
 /* Clear floats after the columns */

@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.home.chorganizer.models.House;
 import com.home.chorganizer.models.Role;
 import com.home.chorganizer.models.User;
 import com.home.chorganizer.repositories.RoleRepository;
@@ -22,6 +23,20 @@ public class UserService {
         this.userRepository= userRepository;
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+    
+    public void makeRoles() {
+    	if(roleRepository.findAll().size() == 0) {
+    		Role user = new Role();
+    		user.setType("ROLE_USER");
+    		roleRepository.save(user);
+    		Role admin = new Role();
+    		admin.setType("ROLE_ADMIN");
+    		roleRepository.save(admin);
+    		Role superb = new Role();
+    		superb.setType("ROLE_SUPER");
+    		roleRepository.save(superb);
+    	}
     }
 
     public User savePleb(User user) {
@@ -86,11 +101,23 @@ public class UserService {
         user.setRoles(roles);
         userRepository.save(user);
     }
+    
     public void updateSignIn(User user) {
     	user.setLastSignIn(new Date());
     	userRepository.save(user);
     }
+    
     public void deleteUser(Long id) {
     	userRepository.deleteById(id);
+    }
+    
+    public void addHouse(House house, User user) {
+    	user.setHouse(house);
+    	userRepository.save(user);
+    }
+    
+    public void removeHouse(House house, User user) {
+    	user.setHouse(null);
+    	userRepository.save(user);
     }
 }

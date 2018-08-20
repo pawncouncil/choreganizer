@@ -32,7 +32,7 @@
 	    <div class="container">
 	        <h1>Welcome, ${user.first}</h1>
 	        <div class="scroll">
-		        <table class="table table-ruled table-striped">
+		        <table class="table table-ruled">
 		            <thead>
 		              <tr>
 		                <th>House Mates</th>
@@ -81,7 +81,7 @@
 		        </table>
 	        </div>
 	        <div class="scroll2">
-				<table class="table table-ruled table-striped">
+				<table class="table table-ruled">
 					<thead>
 					  <tr>
 					    <th>All Chores</th>
@@ -165,7 +165,7 @@
 				<p>Priority</p>
 		       				       
 		        <input type="submit" value="Create"/>
-		        <a href="/sunrise" class="button">Don't</a>
+		    <!--     <a href="/sunrise" class="button">Don't</a> -->
 		    </form:form>
 		</div>
 	</div>
