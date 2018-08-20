@@ -7,8 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Chorganizer</title>
-    <link rel="stylesheet" type="text/css" href="/css/homepage.css">
     <link rel="stylesheet" type="text/css" href="/css/sunrise.css">
+    <link rel="stylesheet" type="text/css" href="/css/homepage.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
@@ -16,6 +16,7 @@
     <script type="text/javascript" src="js/app.js"></script>
     <script>
 	    $(document).ready(function(){
+	    		eventStart();
 		    	// Get the modal
 		        var modal = document.getElementById("myModal");
 		    	
@@ -23,35 +24,54 @@
 	            var modal2 = document.getElementById("myModal2");
 	
 	            // When the user clicks the login button, open the modal
-	            $("#myBtn").click(function() {
+	            $("#myBtn").click(function(e) {
 	                $(modal).show()
 	                $(modal2).hide();
 	                $("#loginEmail").focus();
+	                e.stopPropagation();
+	                eventStop();
 	            });
 	            
 	            // When the user clicks the register button, open the modal
-	            $("#myBtnTwo").click(function() {
+	            $("#myBtnTwo").click(function(e) {
 	                $(modal2).show();
 	                $(modal).hide();
 	                $("#email").focus();
+	                e.stopPropagation();
+	                eventStop();
 	            });
 	
-	            // When the user clicks on <span> (x), close the modal
-	            $(".close").first().click(function() {
-	            	$(modal).hide();
+	            //closes alert box
+	            $("#logout").click(function() {
+	            	$(".alert").hide();
+	            });
+	            $("#logError").click(function() {
+	            	$(".alert").hide();
 	            });
 	            
-	            $(".close").last().click(function() {
+	            
+	            // When the user clicks on <span> (x), close the modal
+	            $("#closeLogin").click(function() {
+	            	$(modal).hide();
+	            	eventStart();
+	            });
+	            
+	            $("#closeReg").click(function() {
 	            	$(modal2).hide();
+	            	eventStart();
 	            });
 	
 	            // When the user clicks anywhere outside of the modal, close it
-	            $(window).click(function(event) {
-	                if (event.target == modal) {
+	            $(document).click(function(event) {
+	            	console.log(modal.style.display);
+	            	console.log(event.target)
+	                if ( $('#logForm').has(event.target).length == 0 && modal.style.display == 'block' ) {
 	                	$(modal).hide();
+	                	eventStart();
 	                }
-	                if (event.target == modal2) {
+	            	if ( $('#regForm').has(event.target).length == 0 && modal2.style.display == 'block' ) {
 	                	$(modal2).hide();
+	                	eventStart();
 	                }
 	            });
 	        });
@@ -68,19 +88,21 @@
     
     <c:if test="${logout != null}">
    		<div class="alert alert-danger">
-        	<p><c:out value="${logout}"></c:out></p>
+        	<c:out value="${logout}"></c:out>
+        	<span class="close" id="logout">&times;</span>
         </div>
     </c:if>
     <c:if test="${logError != null}">
 	    <div class="alert alert-danger">
-		     <p>${logError}</p>
+		     ${logError}
+		     <span class="close" id="logError">&times;</span>
 		</div>
 	</c:if>
     <!-- The Modal for Login -->
     <div id="myModal" class="modal">
 	    <!-- Modal content to login -->
-	    <div class="modal-content">
-	    	<span class="close">&times;</span>
+	    <div class="modal-content" id="logForm">
+	    	<span class="close" id="closeLogin">&times;</span>
 	    	<h1>Login</h1>
 		    <form method="POST" action="/login">
 		        <p>Email: </p><input type="text" id="loginEmail" name="username"/>
@@ -94,8 +116,8 @@
      <!-- The Modal for Registering -->
     <div id="myModal2" class="modal">
         <!-- Modal content to register -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
+        <div class="modal-content" id="regForm">
+            <span class="close" id="closeReg">&times;</span>
            	<h1>Register</h1>
 			<fieldset>
 			    <p><form:errors path="user.*"/></p>
@@ -117,51 +139,54 @@
    		</div>
    </div>
    <!-- SunSet Backgound -->
-    <div id="starsContainer" onmousedown="startMove();" onmouseup="stopMove();">
-    	<div id="stars" onmousedown="startMove();" onmouseup="stopMove();"></div>
-  	</div>
-
-    <div id="sun" onmousedown="startMove();" onmouseup="stopMove();"></div>
-
-  <div id="sunDay" onmousedown="startMove();" onmouseup="stopMove();"></div>
-
-  <div id="sunSet" onmousedown="startMove();" onmouseup="stopMove();"></div>
-
-  <div id="sky" onmousedown="startMove();" onmouseup="stopMove();"></div>
-
-  <div class="star" style="left: 250px; top: 30px;"></div>
-  <div class="star" style="left: 300px; top: 25px;"></div>
-  <div class="star" style="right: 40px; top: 40px;"></div>
-  <div class="star" style="right: 80px; top: 45px;"></div>
-  <div class="star" style="right: 120px; top: 20px;"></div>
-
-  <div id="horizon" onmousedown="startMove();" onmouseup="stopMove();"></div>
-
-  <div id="horizonNight" onmousedown="startMove();" onmouseup="stopMove();"></div>
-
-  <div id="moon" onmousedown="startMove();" onmouseup="stopMove();"></div>
-  
-  <div id="mountainRange">
-    <div id="mountain" onmousedown="startMove();" onmouseup="stopMove();">
+  <div id="screen">
+	  <div id="starsContainer" onmousedown="startMove();" onmouseup="stopMove();">
+	  		<div id="stars" onmousedown="startMove();" onmouseup="stopMove();"></div>
+	  </div>
+	
+	  <div id="sun" onmousedown="startMove();" onmouseup="stopMove();"></div>
+	
+	  <div id="sunDay" onmousedown="startMove();" onmouseup="stopMove();"></div>
+	
+	  <div id="sunSet" onmousedown="startMove();" onmouseup="stopMove();"></div>
+	
+	  <div id="sky" onmousedown="startMove();" onmouseup="stopMove();"></div>
+	
+	  <div class="star" style="left: 250px; top: 70px;"></div>
+	  <div class="star" style="left: 300px; top: 85px;"></div>
+	  <div class="star" style="right: 40px; top: 90px;"></div>
+	  <div class="star" style="right: 80px; top: 95px;"></div>
+	  <div class="star" style="right: 120px; top: 65px;"></div>
+	
+	  <div id="horizon" onmousedown="startMove();" onmouseup="stopMove();"></div>
+	
+	  <div id="horizonNight" onmousedown="startMove();" onmouseup="stopMove();"></div>
+	
+	  <div id="moon" onmousedown="startMove();" onmouseup="stopMove();"></div>
+	  
+	  <div id="mountainRange">
+	    <div id="mountain" onmousedown="startMove();" onmouseup="stopMove();">
+	  </div>
+	
+	  </div>
+	
+	  <div id="division" onmouseup="stopMove();">
+	
+	  </div>
+	
+	  <div id="water" onmousedown="startMove();" onmouseup="stopMove();"></div>
+	
+	  <div id="waterReflectionContainer" onmousedown="startMove();" onmouseup="stopMove();">
+	    <div id="waterReflectionMiddle" onmousedown="startMove();" onmouseup="stopMove();">
+	
+	    </div>
+	  </div>
+	  <div id="waterDistance"  onmousedown="startMove();" onmouseup="stopMove();"></div>
+	  <div id="darknessOverlaySky"  onmousedown="startMove();" onmouseup="stopMove();"></div>
+	  <div id="darknessOverlay"></div>
+	  <div id="oceanRippleContainer"></div>
+	  <div id="oceanRipple"></div>
+	  <div style="margin-top: 150px;" class="mountains"><img src="/images/cascades.png"></div>
   </div>
-
-  </div>
-
-  <div id="division" onmousedown="startDraggingDivision();" onmouseup="stopMove();">
-
-  </div>
-
-  <div id="water" onmousedown="startMove();" onmouseup="stopMove();"></div>
-
-  <div id="waterReflectionContainer" onmousedown="startMove();" onmouseup="stopMove();">
-    <div id="waterReflectionMiddle" onmousedown="startMove();" onmouseup="stopMove();">
-
-    </div>
-  </div>
-  <div id="waterDistance"  onmousedown="startMove();" onmouseup="stopMove();"></div>
-  <div id="darknessOverlaySky"  onmousedown="startMove();" onmouseup="stopMove();"></div>
-  <div id="darknessOverlay"></div>
-  <div id="oceanRippleContainer"></div>
-  <div id="oceanRipple"></div>
 </body>
 </html>

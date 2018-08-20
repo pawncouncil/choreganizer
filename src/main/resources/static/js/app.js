@@ -1,18 +1,23 @@
 var mouse = {x: 0, y: 0};
 var myWidth = 0, myHeight = 0;
 var mouseIsDown = false;
-var mouseIsDownDivision = false;
 
-document.addEventListener('mousemove', function(e){ 
+function eventStart(){
+	document.getElementById("screen").addEventListener('mousemove',handleMouseMove , false);
+}
+
+function eventStop(){
+	document.getElementById("screen").removeEventListener('mousemove',handleMouseMove , false);
+}
+
+function handleMouseMove(e){ 
+	
     mouse.x = e.clientX || e.pageX; 
     mouse.y = e.clientY || e.pageY 
-    updateDimensions();
 
-<<<<<<< HEAD
-    //if(mouseIsDown) {
-=======
-    if(mouseIsDown) {
->>>>>>> aa5f9badf0fb7f7d980c9fb50e31ffba2eb74d82
+
+    if(mouseIsDown && document.getElementById('myModal').style.display != 'block' && document.getElementById('myModal2').style.display != 'block') {
+      updateDimensions();
       document.getElementById("sun").style.background = '-webkit-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(242,248,247,1) 0%,rgba(249,249,28,1) 3%,rgba(247,214,46,1) 8%, rgba(248,200,95,1) 12%,rgba(201,165,132,1) 30%,rgba(115,130,133,1) 51%,rgba(46,97,122,1) 85%,rgba(24,75,106,1) 100%)';
       document.getElementById("sun").style.background = '-moz-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(242,248,247,1) 0%,rgba(249,249,28,1) 3%,rgba(247,214,46,1) 8%, rgba(248,200,95,1) 12%,rgba(201,165,132,1) 30%,rgba(115,130,133,1) 51%,rgba(46,97,122,1) 85%,rgba(24,75,106,1) 100%)';
       document.getElementById("sun").style.background = '-ms-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(242,248,247,1) 0%,rgba(249,249,28,1) 3%,rgba(247,214,46,1) 8%, rgba(248,200,95,1) 12%,rgba(201,165,132,1) 30%,rgba(115,130,133,1) 51%,rgba(46,97,122,1) 85%,rgba(24,75,106,1) 100%)';
@@ -81,26 +86,8 @@ document.addEventListener('mousemove', function(e){
         document.getElementById("waterReflectionMiddle").style.opacity = mouse.y / (myHeight/2) - 0.1; 
       }
 
-    } else if (mouseIsDownDivision) {
-      var sunElement = document.getElementById("sun");
-      var water = document.getElementById("water");
-      var division = document.getElementById("division");
-      sunElement.style.height = (mouse.y).toString() + "px";
-      document.getElementById("sunDay").style.height = (mouse.y).toString() + "px";
-      division.style.top = (mouse.y).toString() + "px";
-      var waterHeight = myHeight-mouse.y;
-      water.style.height = waterHeight.toString() + "px";
-
-      document.getElementById("sun").style.height = (mouse.y).toString() + "px";
-      document.getElementById("sunDay").style.height = (mouse.y).toString() + "px";
-      document.getElementById("horizon").style.height = (mouse.y).toString() + "px";
-      document.getElementById("waterDistance").style.height = (myHeight-mouse.y).toString() + "px";
-      document.getElementById("oceanRippleContainer").style.height = (myHeight-mouse.y).toString() + "px";
-      document.getElementById("darknessOverlay").style.height = (myHeight-mouse.y).toString() + "px";
     }
-
-
-}, false);
+}
 
 function updateDimensions() {
   if( typeof( window.innerWidth ) == 'number' ) {

@@ -71,7 +71,7 @@
 				    <c:when test="${chore.assignee == user }">
 				    <td><a href="/chores/${chore.id}/delete">Completed</a></td></c:when>
 				    <c:otherwise>
-				    <td><a href="/sunrise">Not Completed</a></td></c:otherwise>
+				    <td><a href="#">Not Completed</a></td></c:otherwise>
 			    </c:choose>
 			  </tr>
 			</c:forEach>
