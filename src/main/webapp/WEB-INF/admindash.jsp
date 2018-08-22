@@ -124,7 +124,8 @@
 					<form:option value="3">High</form:option>
 			</form:select>
 			<p>Priority</p>
-	       				       
+	       	<form:hidden path="createdAt" />
+	       			       
 	        <input type="submit" value="Create"/>
 	        <a href="/sunrise" class="button">Don't</a>
 	    </form:form>

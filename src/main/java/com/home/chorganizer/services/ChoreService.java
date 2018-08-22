@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-
 import com.home.chorganizer.models.Chore;
+import com.home.chorganizer.models.House;
 import com.home.chorganizer.repositories.ChoreRepo;
 
 @Service
@@ -48,6 +48,10 @@ public class ChoreService {
 
 	public List<Chore>allAscend(){
 		return choreRepo.findAllByOrderByPriorityAsc();
+	}
+	
+	public List<Chore> allChoresFromHome(House house){
+		return choreRepo.findByHouse(house);
 	}
 
 }

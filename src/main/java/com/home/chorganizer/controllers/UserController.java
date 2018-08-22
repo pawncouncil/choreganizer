@@ -151,7 +151,8 @@ public class UserController {
     		return "redirect:/addHouse";
     	}
     	model.addAttribute("user", user);
-    	Object chores = choreService.allDescend();
+    	model.addAttribute("house", house);
+    	List<Chore> chores = choreService.allChoresFromHome(house);
 		model.addAttribute("chores", chores);
         if(user.getRoles().size() > 1) {
         	return "redirect:/admin";
@@ -162,11 +163,19 @@ public class UserController {
     @RequestMapping("/admin")
     public String admin(@ModelAttribute("chore") Chore chore, HttpSession session, Principal principal, Model model, @RequestParam(value="priority", required=false) String priority) {
         String email = principal.getName();
-        model.addAttribute("user", userService.findByEmail(email));
-        model.addAttribute("allUsers", userService.allUsers());
+        if(email == null) {
+    		return "redirect:/login";
+    	}
         User user = userService.findByEmail(email);
+        House house = user.getHouse();
+    	if(house == null) {
+    		return "redirect:/addHouse";
+    	}
+        model.addAttribute("user", user);
+        model.addAttribute("house", house);
+        model.addAttribute("allUsers", userService.allUsers());
         session.setAttribute("userId", user.getId());
-        Object chores = choreService.allDescend();
+        List<Chore> chores = choreService.allChoresFromHome(house);
 		model.addAttribute("chores", chores);
         if(user.getRoles().size() > 2) {
         	model.addAttribute("super", "this is a super admin user");
@@ -205,16 +214,17 @@ public class UserController {
     }
     
     @RequestMapping(value="/chores/new", method=RequestMethod.POST)
-    public String createChore(@Valid @ModelAttribute("chore") Chore chore, BindingResult result, Model model, HttpSession session) {
+    public String createChore(@Valid @ModelAttribute("chore") Chore chore, BindingResult result, Model model, HttpSession session, Principal principal) {
        if (result.hasErrors()) {
            return "admindash.jsp";
        } else {
-		   Long userId = (Long) session.getAttribute("userId");
-		   User user = userService.findById(userId);
-		   model.addAttribute("user", user);
-		   chore.setCreator(user);
-	       choreService.createChore(chore);
-	       return "redirect:/admin";
+    	   	String email = principal.getName();
+	       	User user = userService.findByEmail(email);
+	       	House house = user.getHouse();
+	       	chore.setCreator(user);
+	       	chore.setHouse(house);
+	       	choreService.createChore(chore);
+	       	return "redirect:/admin";
        }
 
     }
