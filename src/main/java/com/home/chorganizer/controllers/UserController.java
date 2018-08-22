@@ -153,6 +153,7 @@ public class UserController {
     	model.addAttribute("user", user);
     	Object chores = choreService.allDescend();
 		model.addAttribute("chores", chores);
+		model.addAttribute("house", house);
         if(user.getRoles().size() > 1) {
         	return "redirect:/admin";
         }
@@ -168,6 +169,8 @@ public class UserController {
         session.setAttribute("userId", user.getId());
         Object chores = choreService.allDescend();
 		model.addAttribute("chores", chores);
+		House house = user.getHouse();
+		model.addAttribute("house", house);
         if(user.getRoles().size() > 2) {
         	model.addAttribute("super", "this is a super admin user");
         }
@@ -242,6 +245,8 @@ public class UserController {
     	List<User> users = userService.allUsers();
     	model.addAttribute("users", users);
     	model.addAttribute("chore", choreToEdit);
+    	House house = user.getHouse();
+		model.addAttribute("house", house);
     	return "/edit.jsp";  
 //    	}
     }

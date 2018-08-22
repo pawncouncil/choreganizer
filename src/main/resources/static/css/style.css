@@ -81,6 +81,10 @@ tbody {
     overflow-y: auto;
 }
 
+.user table tbody{
+	height: 219px;
+}
+
 thead  th{
 	display: block;
 	background: #bdc3c7;  
@@ -107,68 +111,20 @@ tr{
  	background-color: #fafafa;
  	width: 100%;
  }
-
-/* .table {
-    table-layout: fixed;
-    border-collapse: collapse;
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse; 
-    height: 200px;
-    width: 100%;
-    overflow: scroll;
-    overflow-y: visible;
-    overflow-x: hidden;
-    margin-bottom: 15px;
+ 
+.user {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	/* background: #bdc3c7;
+	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  
+	background: linear-gradient(to top, #2c3e50, #bdc3c7); */ 
+	padding: 10px;
 }
 
-.scroll tbody{
-  display:block;
-  width: 100%;
-  overflow: auto;
-  
-  height: 149px;
+.user table{
+	background-color: #fafafa;
+	width: 300px;
+	height: 219px;
 }
-
-.scroll thead tr {
-   display: block;
-}
-
-.scroll thead {  
-	display: block;
-	width: 100%;
-  	overflow: auto;
-	background: #bdc3c7;  
-	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);
-	background: linear-gradient(to top, #2c3e50, #bdc3c7);
-    color: #eaeaea;
-}
-
-.scroll th, .scroll td {
-    border: 1px solid #b1b1b1;
-  	padding: 5px;
-  	text-align: left;
-  	width: 100%;
-}
-
-td, th {
-    border: 1px solid #b1b1b1;
-    padding: 4px;
-}
-
- tr{
- 	background-color: #c0c0c0;
- 	width: 100%;
- }
-
-th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background: #bdc3c7;  
-	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);
-	background: linear-gradient(to top, #2c3e50, #bdc3c7);
-    color: #eaeaea;
-} */ 
 
 input[type=text], select, textarea {
     width: 341px;
@@ -205,10 +161,6 @@ input[type=submit] {
     margin-left: 5px;
 }
 
-.mountains{
-	margin-top: 100px;
-}
-
 
 .button:hover{
 	background-color: black;
@@ -232,14 +184,6 @@ p{
 	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  Chrome 10-25, Safari 5.1-6
 	background: linear-gradient(to top, #2c3e50, #bdc3c7); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+
 	padding: 20px;*/ 
-}
-
-.user {
-	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	background: #bdc3c7;
-	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  
-	background: linear-gradient(to top, #2c3e50, #bdc3c7); 
-	padding: 20px;
 }
  
 /* Clear floats after the columns */

@@ -25,20 +25,20 @@
 <body>
 	<div id="wrapper">
 	<div class="headers">
-        <h1 id="logo">Choreganizer</h1>
+       <h1 id="logo">House ${house.name}</h1> 
          <a href="/logout" class="headera">Logout</a>
     </div>
 		<div class="container">
 	        <h1>Edit: ${chore.title}</h1>
 	        <div class="scroll">
-		        <table class="table table-ruled table-striped">
+		        <table class="table table-ruled">
 		            <thead>
 		              <tr>
 		                <th>House Mates</th>
 		                <th>Phone #</th>
 		                <th>Actions</th>
 		                <th>Last Login</th>
-		                <th>House Menber Since</th>
+		                <th>House Member Since</th>
 		              </tr>
 		            </thead>
 		            <tbody>
@@ -73,14 +73,14 @@
 		                   <c:if test="${single.lastSignIn != null}">
 		                       <td><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.lastSignIn}"></fmt:formatDate></td>
 		                   </c:if>
-		                   <td>${single.createdAt}</td>
+		                   <td><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.createdAt}"></fmt:formatDate></td>
 		                 </tr>
 		               </c:forEach>
 		            </tbody>
 		        </table>
 	        </div>
 	        <div class="scroll2">
-				<table class="table table-ruled table-striped">
+				<table class="table table-ruled">
 					<thead>
 					  <tr>
 					    <th>All Chores</th>
