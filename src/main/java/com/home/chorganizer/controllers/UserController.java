@@ -154,6 +154,7 @@ public class UserController {
     	model.addAttribute("house", house);
     	List<Chore> chores = choreService.allChoresFromHome(house);
 		model.addAttribute("chores", chores);
+		model.addAttribute("house", house);
         if(user.getRoles().size() > 1) {
         	return "redirect:/admin";
         }
@@ -252,6 +253,8 @@ public class UserController {
     	List<User> users = userService.allUsers();
     	model.addAttribute("users", users);
     	model.addAttribute("chore", choreToEdit);
+    	House house = user.getHouse();
+		model.addAttribute("house", house);
     	return "/edit.jsp";  
 //    	}
     }
