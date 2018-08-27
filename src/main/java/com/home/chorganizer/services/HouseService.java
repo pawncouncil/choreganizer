@@ -73,4 +73,10 @@ public class HouseService {
             }
         }
 	}
+	
+	public void addMessage(User user, String message) {
+		House house =  user.getHouse();
+		house.addMessage(user, message);
+		houseRepo.save(house);
+	}
 }

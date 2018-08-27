@@ -28,28 +28,60 @@
     <div class="container">
 	    <div class="user">
 	        <h1>Welcome Home, ${user.first}!</h1>
-	        <table style="text-align: left; outline: 1px black solid;">
+	        <div class="row-fluid">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>
+									Message Board
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:if test="${house.messageBoard.size() == 0}">
+								<tr>
+									<td colspan="2">No messages</td>
+								</tr>
+							</c:if>
+							<c:if test="${house.messageBoard.size() > 0}">
+								<c:forEach items="${house.messageBoard}" var="msg"> 
+									<tr>
+										<td colspan="2">${msg}</td>
+									</tr>
+								</c:forEach>
+							</c:if>
+						</tbody>
+					</table>
+					</div>
+					<div class="row-fluid">
+						<form id="new-user" action="/message" method="post">
+							<input type="text" name="message" placeholder="Message" />
+							<input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							<input type="submit" id="send" class="btn btn-primary" value="Post">
+						</form>	
+					</div>
+	        <%-- <table style="text-align: left; outline: 1px black solid;">
 	            <tr style="margin: 5px;">
 	                <td style="padding: 5px;">Name: ${user.first} ${user.last}</td>
-	               <%--  <td style="padding: 5px;">${user.first} ${user.last}</td> --%>
+	                <td style="padding: 5px;">${user.first} ${user.last}</td>
 	            </tr>
 	            <tr style="margin: 5px;">
 	                <td style="padding: 5px;">Phone #: ${user.phone}</td>
-	               <%--  <td style="padding: 5px;">${user.phone}</td> --%>
+	                <td style="padding: 5px;">${user.phone}</td>
 	            </tr>
 	            <tr style="margin: 5px;">
 	                <td style="padding: 5px;">Email: ${user.email}</td>
-	                <%-- <td style="padding: 5px;">${user.email}</td> --%>
+	                <td style="padding: 5px;">${user.email}</td>
 	            </tr>
 	            <tr style="margin: 5px;">
 	                <td style="padding: 5px;">House member since: <fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.createdAt}"></fmt:formatDate></td>
-	                <%-- <td style="padding: 5px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.createdAt}"></fmt:formatDate></td> --%>
+	                <td style="padding: 5px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.createdAt}"></fmt:formatDate></td>
 	            </tr>
 	            <tr style="margin: 5px;">
 	                <td style="padding: 5px;">Last Sign In: <fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.lastSignIn}"></fmt:formatDate></td>
-	               <%--  <td style="padding: 5px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.lastSignIn}"></fmt:formatDate></td> --%>
+	                <td style="padding: 5px;"><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.lastSignIn}"></fmt:formatDate></td>
 	            </tr>
-	        </table>
+	        </table> --%>
 		</div>
 		<div class="scroll">
 			<table class="table table-ruled">
@@ -79,7 +111,7 @@
 					    <c:when test="${chore.assignee == user }">
 					    <td><a href="/chores/${chore.id}/delete">Completed</a></td></c:when>
 					    <c:otherwise>
-					    <td><a href="#">Not Completed</a></td></c:otherwise>
+					    <td>Not Completed</td></c:otherwise>
 				    </c:choose>
 				  </tr>
 				</c:forEach>

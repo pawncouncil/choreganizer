@@ -121,25 +121,31 @@
 						<thead>
 							<tr>
 								<th>
-									Name
-								</th>
-								<th>
-									Message
+									Message Board
 								</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td colspan="2">No messages</td>
-							</tr>
+							<c:if test="${house.messageBoard.size() == 0}">
+								<tr>
+									<td colspan="2">No messages</td>
+								</tr>
+							</c:if>
+							<c:if test="${house.messageBoard.size() > 0}">
+								<c:forEach items="${house.messageBoard}" var="msg"> 
+									<tr>
+										<td colspan="2">${msg}</td>
+									</tr>
+								</c:forEach>
+							</c:if>
 						</tbody>
 					</table>
 				</div>
 				<div class="row-fluid">
-					<form id="new-user">
-						<input type="text" name="username" placeholder="Name" />
+					<form id="new-user" action="/message" method="post">
 						<input type="text" name="message" placeholder="Message" />
-						<a id="send" class="btn btn-primary">SEND</a>
+						<input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						<input type="submit" id="send" class="btn btn-primary" value="Post">
 					</form>		
 				</div>
 
@@ -166,7 +172,6 @@
 		        <p>Assignee</p>
 					       
 		        <input type="submit" value="Create"/>
-		    <!--     <a href="/sunrise" class="button">Don't</a> -->
 		    </form:form>
 		</div>
 	</div>

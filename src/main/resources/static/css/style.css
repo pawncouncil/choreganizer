@@ -73,13 +73,12 @@
     border-collapse: collapse; 
     height: 200px;
     width: 100%;
- /*    overflow: scroll;
-    overflow-y: visible;
-    overflow-x: hidden; */
+    overflow: hidden;
     margin-bottom: 15px;
 }
 
 tbody, tr, td, th { display: block; }
+
 
 tr:after {
     content: ' ';
@@ -111,12 +110,15 @@ thead  th{
     color: #eaeaea;
 }
     /* fallback */
-
+.scroll table, .scroll2 table{
+	border-radius: 4px;
+}
 
 .scroll tbody td, thead th {
     width: 20%;
     float: left;
     background-color: #fafafa;
+ 
 }
 
 .scroll2 tbody td, thead th {
@@ -127,21 +129,19 @@ thead  th{
 
 tr{
  	background-color: #fafafa;
- 	width: 100%;
+ 	width: 100%;	
  }
  
 .user {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	/* background: #bdc3c7;
-	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  
-	background: linear-gradient(to top, #2c3e50, #bdc3c7); */ 
 	padding: 10px;
 }
 
 .user table{
 	background-color: #fafafa;
-	width: 300px;
+	width: 396px;
 	height: 219px;
+	border-radius: 4px;
 }
 
 input[type=text], select, textarea {
@@ -197,11 +197,6 @@ p{
 
 .container {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    /* border-radius: 5px;  
-    background: #bdc3c7;  fallback for old browsers
-	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  Chrome 10-25, Safari 5.1-6
-	background: linear-gradient(to top, #2c3e50, #bdc3c7); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+
-	padding: 20px;*/ 
 }
  
 /* Clear floats after the columns */
@@ -227,6 +222,15 @@ p{
 	width:400px;
 	display:inline-block;
 	verticle-align: top;
+}
+
+.row-fluid th {
+	width: 100%;
+	text-align: center;
+}
+
+.row-fluid input[type=text] {
+	width: 200px;
 }
 
 #newChore {

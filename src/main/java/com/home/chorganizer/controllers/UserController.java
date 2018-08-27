@@ -135,7 +135,8 @@ public class UserController {
     		String email = principal.getName();
     		User member = userService.findByEmail(email);
     		userService.addHouse(home, member);
-    		return "redirect:/home";
+    		userService.updateAdmin(member);
+    		return "redirect:/admin";
     	}
     }
     
@@ -299,6 +300,17 @@ public class UserController {
     		choreService.updateChore(chore);
     		return "redirect:/chores/{id}/edit";
     	} 
+    }
+    
+    @PostMapping("/message")
+    public String addMessage(@RequestParam("message")String message, Principal principal) {
+    	User user = userService.findByEmail(principal.getName());
+    	houseService.addMessage(user, message);
+    	if(user.getRoles().size() > 1) {
+        	return "redirect:/admin";
+        } else {
+        	return "redirect:/";
+        }
     }
     
 }

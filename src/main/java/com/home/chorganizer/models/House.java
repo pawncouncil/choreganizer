@@ -85,7 +85,7 @@ public class House {
 	}
 	
 	public void addMessage(User member, String message) {
-		String messageToAdd = member.getFirst() + " " + member.getLast() + ": " + message;
+		String messageToAdd = member.getFirst() + ": " + message;
 		this.messageBoard.add(messageToAdd);
 	}
 
