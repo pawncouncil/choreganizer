@@ -185,13 +185,12 @@
 	  </div>
 	<!-- Sky/Ground Divider -->
 	  </div>
-	
+	  
 	  <div id="division" onmouseup="stopMove();">
 	
 	  </div>
-	
+	  
 	  <div id="water" onmousedown="startMove();" onmouseup="stopMove();"></div>
-	
 	  <div id="waterDistance"  onmousedown="startMove();" onmouseup="stopMove();"></div>
 	  <div id="darknessOverlaySky"  onmousedown="startMove();" onmouseup="stopMove();"></div>
 	  <div id="darknessOverlay"></div>
