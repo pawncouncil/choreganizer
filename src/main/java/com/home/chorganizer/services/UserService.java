@@ -84,8 +84,11 @@ public class UserService {
     	}
     }
     
-    public List<User> allUsers() {
-    	return (List<User>) userRepository.findAll();
+    public List<User> everyUser(){
+    	return userRepository.findAll();
+    }
+    public List<User> allUsers(House house) {
+    	return userRepository.findByHouse(house);
     }
 
     public void updatePleb(User user) {

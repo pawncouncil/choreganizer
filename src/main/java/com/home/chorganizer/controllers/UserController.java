@@ -66,7 +66,7 @@ public class UserController {
         if(result.hasErrors()) {
             return "index.jsp";
         }
-        if(userService.allUsers().size() == 0) {
+        if(userService.everyUser().size() == 0) {
         	User u = userService.saveSuper(user);
         	try {
         		request.login(u.getEmail(), password);
@@ -150,14 +150,14 @@ public class UserController {
     	if(house == null) {
     		return "redirect:/addHouse";
     	}
+    	if(user.getRoles().size() > 1) {
+        	return "redirect:/admin";
+        }
     	model.addAttribute("user", user);
     	model.addAttribute("house", house);
     	List<Chore> chores = choreService.allChoresFromHome(house);
 		model.addAttribute("chores", chores);
 		model.addAttribute("house", house);
-        if(user.getRoles().size() > 1) {
-        	return "redirect:/admin";
-        }
         return "userdash.jsp";
     }
     
@@ -169,40 +169,68 @@ public class UserController {
     	}
         User user = userService.findByEmail(email);
         House house = user.getHouse();
-    	if(house == null) {
+    	if(user.getRoles().size() < 3 && house == null) { //if not a superuser and admin doesn't have a home
     		return "redirect:/addHouse";
     	}
         model.addAttribute("user", user);
         model.addAttribute("house", house);
-        model.addAttribute("allUsers", userService.allUsers());
         session.setAttribute("userId", user.getId());
         List<Chore> chores = choreService.allChoresFromHome(house);
 		model.addAttribute("chores", chores);
-        if(user.getRoles().size() > 2) {
-        	model.addAttribute("super", "this is a super admin user");
-        }
-        if(user.getRoles().size() > 1) {
-        	model.addAttribute("admin", "this is an admin user"); 
+        if(user.getRoles().size() > 2) { // super sees every user
+        	 model.addAttribute("allUsers", userService.everyUser());
+        } else if (user.getRoles().size() > 1) { //admins just see their house mates
+        	 model.addAttribute("allUsers", userService.allUsers(house)); 
         }
         return "admindash.jsp";
     }    
  
-    @RequestMapping("/make-admin/{id}")
-    public String makeAd(@PathVariable("id") Long id){
+    @PostMapping("/admin/make-admin/{id}")
+    public String makeAd(@PathVariable("id") Long id, Principal principal){
         User user = userService.findById(id);
-        userService.updateAdmin(user);
-        return "redirect:/admin";
+        House userHome = user.getHouse();
+        User housemate = userService.findByEmail(principal.getName());
+        House currentHome = housemate.getHouse();
+        if(housemate.getRoles().size() > 2 || (housemate.getRoles().size() > 1 && currentHome.equals(userHome))) { // Requestor must be super user and fellow house admin
+	        userService.updateAdmin(user);
+	        return "redirect:/admin";
+        } else {
+        	return "redirect:/admin";
+        }
+        
     }
-    @PostMapping("/take-admin/{id}")
-    public String takeAd(@PathVariable("id") Long id){
+    @PostMapping("/admin/take-admin/{id}")
+    public String takeAd(@PathVariable("id") Long id, Principal principal){
         User user = userService.findById(id);
-        userService.updatePleb(user);
-        return "redirect:/admin";
+        User housemate = userService.findByEmail(principal.getName());
+        if(housemate.getRoles().size() > 2 || (housemate.getRoles().size() > 1 && housemate.getHouse().equals(user.getHouse()))) { // Requestor must be super user/house admin and fellow house admin
+	        userService.updatePleb(user);
+	        return "redirect:/admin";
+        } else {
+        	return "redirect:/admin";
+        }
     }
-    @RequestMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id){
-    	userService.deleteUser(id);
-        return "redirect:/admin";
+    @PostMapping("/admin/delete/{id}")
+    public String delete(@PathVariable("id") Long id, Principal principal){
+    	User housemate = userService.findByEmail(principal.getName());
+    	if(housemate.getRoles().size() > 2) { // Requestor must be super user
+	    	userService.deleteUser(id);
+	        return "redirect:/admin";
+    	} else {
+    		return "redirect:/admin";
+    	}
+    }
+    
+    @PostMapping("/admin/remove/{id}")
+    public String remove(@PathVariable("id") Long id, Principal principal){
+    	User user = userService.findById(id);
+    	User housemate = userService.findByEmail(principal.getName());
+    	if(housemate.getRoles().size() > 2 || (housemate.getRoles().size() > 1 && housemate.getHouse().equals(user.getHouse()))) { // Requestor must be super user/house admin and fellow house admin
+	    	userService.removeHouse(user.getHouse(), user);
+	        return "redirect:/admin";
+    	} else {
+    		return "redirect:/admin";
+    	}
     }
     
     @RequestMapping("/logout")
@@ -239,30 +267,29 @@ public class UserController {
     @RequestMapping("chores/{idEdit}/edit")
     public String edit(@ModelAttribute("chore") Chore chore, @PathVariable("idEdit") Long id, Principal principal, Model model, HttpSession session) {
     	String email = principal.getName();
-        model.addAttribute("user", userService.findByEmail(email));
-        model.addAttribute("allUsers", userService.allUsers());
-        User user = userService.findByEmail(email);
+    	User user = userService.findByEmail(email);
+        model.addAttribute("user", user);
+        House house = user.getHouse();
+        model.addAttribute("allUsers", userService.allUsers(house));
         session.setAttribute("userId", user.getId());
-    	Object chores = choreService.allDescend();
+    	List<Chore> chores = choreService.allChoresFromHome(house);
 		model.addAttribute("chores", chores);
     	Chore choreToEdit = choreService.findOne(id);
 //    	Long currentUser = (Long) session.getAttribute("userId");
 //    	if (choreToEdit.getCreator().getId() != currentUser) {
 //    		return "redirect:/admin";
 //    	} else {
-    	List<User> users = userService.allUsers();
-    	model.addAttribute("users", users);
     	model.addAttribute("chore", choreToEdit);
-    	House house = user.getHouse();
 		model.addAttribute("house", house);
     	return "/edit.jsp";  
 //    	}
     }
     
     @PostMapping("/chores/{id}/edit")
-    public String editChore(@Valid@ModelAttribute("chore") Chore chore, BindingResult result, @PathVariable("id") Long id, Model model, HttpSession session) {
+    public String editChore(@Valid@ModelAttribute("chore") Chore chore, BindingResult result, @PathVariable("id") Long id, Model model, HttpSession session, Principal principal) {
     	if (result.hasErrors()) {
-    		List<User> users = userService.allUsers();
+    		User user = userService.findByEmail(principal.getName());
+    		List<User> users = userService.allUsers(user.getHouse());
     		model.addAttribute("users", users);
             return "/edit.jsp";
     	} else {

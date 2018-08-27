@@ -25,10 +25,11 @@
 </head>
 <body>
 	<div id="wrapper">
-	<div class="headers">
-        <h1 id="logo">House ${house.name}</h1>
-         <a href="/logout" class="headera">Logout</a>
-    </div>
+		<div class="headers">
+			<a class="homebutton" href="/home"><i class="fas fa-home"></i></a>
+	        <a href="/home" class="logolink"><h1 id="logo">House ${house.name}</h1></a>
+	        <a href="/logout" class="headera">Logout</a>
+	    </div>
 	    <div class="container">
 	        <h1>Welcome, ${user.first}</h1> 
 	        <div class="scroll">
@@ -44,38 +45,38 @@
 		            </thead>
 		            <tbody>
 		              <c:forEach items="${allUsers}" var="single">
-		                 <tr>
-		                   <td>${single.first} ${single.last}</td>
-		                   <td>${single.phone}</td>
-		                   <c:if test="${user.getRoles().size() > 2}">
-		                   <td>
-		                       <c:if test="${single.getRoles().size() == 3}">Super Admin</c:if>
-		                       <c:if test="${single.getRoles().size() != 3}">
-		                       <c:if test="${single == user}">Admin</c:if>
-		                       <c:if test="${single != user}">
-		                       <a href="/delete/${single.id}">Delete</a>
-		                       <c:if test="${single.getRoles().size() == 1}"> | <a href="/make-admin/${single.id}">Make Admin</a></c:if>
-		                       <c:if test="${single.getRoles().size() == 2}"> | <a href="/revoke-admin/${single.id}">Revoke Admin</a></c:if>
-		                       </c:if>
-		                       </c:if>
-		                   </td>
-		                    </c:if>
-		                   	<c:if test="${user.getRoles().size() == 2}">
-		                    <c:if test="${single.getRoles().size() > 1}">
-		                    <td>Admin</td>
-		                    </c:if>
-		                    <c:if test="${single.getRoles().size() == 1}">
-		                    <td><a href="/delete/${single.id}">Delete</a> | <a href="/make-admin/${single.id}">Make Admin</a></td>
-		                    </c:if>
-		                    </c:if>
-		                   	<c:if test="${single.lastSignIn == null}">
-	                       <td>Never signed in</td>
-		                   </c:if>
-		                   <c:if test="${single.lastSignIn != null}">
-		                       <td><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.lastSignIn}"></fmt:formatDate></td>
-		                   </c:if>
-		                   <td><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.createdAt}"></fmt:formatDate></td>
-		                 </tr>
+			                 <tr>
+			                   <td>${single.first} ${single.last}</td>
+			                   <td>${single.phone}</td>
+			                   <c:if test="${user.getRoles().size() > 2}">
+			                   <td>
+			                       <c:if test="${single.getRoles().size() == 3}">Super Admin</c:if>
+			                       <c:if test="${single.getRoles().size() != 3}">
+			                       <c:if test="${single == user}">Admin</c:if>
+			                       <c:if test="${single != user}">
+			                       <form action="/admin/delete/${single.id}" method="POST"> <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="submit" class="btn btn-danger" value="Delete User" /></form>
+			                       <c:if test="${single.getRoles().size() == 1}"> | <form action="/admin/make-admin/${single.id}" method="POST"> <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="submit" class="btn btn-primary" value="Make Admin" /></form></c:if>
+			                       <c:if test="${single.getRoles().size() == 2}"> | <form action="/admin/take-admin/${single.id}" method="POST"> <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="submit" class="btn btn-warning" value="Revoke Admin" /></form></c:if>
+			                       </c:if>
+			                       </c:if>
+			                   </td>
+			                    </c:if>
+			                   	<c:if test="${user.getRoles().size() == 2}">
+			                    <c:if test="${single.getRoles().size() > 1}">
+			                    <td>Admin</td>
+			                    </c:if>
+			                    <c:if test="${single.getRoles().size() == 1}">
+			                    <td><form action="/admin/delete/${single.id}" method="POST"> <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="submit" class="btn btn-danger" value="Delete User" /></form> | <form action="/admin/make-admin/${single.id}" method="POST"> <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="submit" class="btn btn-primary" value="Make Admin" /></form></td>
+			                    </c:if>
+			                    </c:if>
+			                   	<c:if test="${single.lastSignIn == null}">
+		                       <td>Never signed in</td>
+			                   </c:if>
+			                   <c:if test="${single.lastSignIn != null}">
+			                       <td><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.lastSignIn}"></fmt:formatDate></td>
+			                   </c:if>
+			                   <td><fmt:formatDate pattern = "MMMMM dd, yyyy" value="${user.createdAt}"></fmt:formatDate></td>
+			                 </tr>
 		               </c:forEach>
 		            </tbody>
 		        </table>
@@ -141,29 +142,29 @@
 						<a id="send" class="btn btn-primary">SEND</a>
 					</form>		
 				</div>
+
 			</div> 
-			<form:form method="POST" action="/chores/new" modelAttribute="chore">
-		    
+			<form:form method="POST" action="/chores/new" modelAttribute="chore" id="newChore"> 
 		    	<form:input path="title"/>
 		    	<p>Chore<br></p>
 		       
 		       <form:input path="description"/>
 		        <p>Description<br> </p>
 		     
+		     	<form:select path="priority">
+						<form:option value="1">Low</form:option>
+						<form:option value="2">Medium</form:option>
+						<form:option value="3">High</form:option>
+				</form:select>
+				<p>Priority</p>
+				
 		       <form:select path="assignee" >
 		            <c:forEach items="${allUsers}" var="x">
 		                <form:option value="${x.id}">${x.first}</form:option>
 		            </c:forEach>
 		        </form:select>
 		        <p>Assignee</p>
-				
-				 <form:select path="priority">
-						<form:option value="1">Low</form:option>
-						<form:option value="2">Medium</form:option>
-						<form:option value="3">High</form:option>
-				</form:select>
-				<p>Priority</p>
-		       				       
+					       
 		        <input type="submit" value="Create"/>
 		    <!--     <a href="/sunrise" class="button">Don't</a> -->
 		    </form:form>
