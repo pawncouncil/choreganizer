@@ -113,7 +113,7 @@
 				    </tbody>
 				</table>
 			</div>
-			<%-- <div class="message">
+			<div class="message">
 				<div class="row-fluid">
 					<table class="table table-bordered table-striped">
 					
@@ -141,7 +141,7 @@
 						<a id="send" class="btn btn-primary">SEND</a>
 					</form>		
 				</div>
-			</div> --%>
+			</div> 
 			<form:form method="POST" action="/chores/new" modelAttribute="chore">
 		    
 		    	<form:input path="title"/>
