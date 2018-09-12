@@ -299,7 +299,7 @@ public class UserController {
     		House userHouse = u.getHouse();
     		Chore choreToEdit = choreService.findOne(id);
     		House choreHouse = choreToEdit.getHouse();
-    		if(choreHouse.equals(userHouse) && u.getRoles().size() > 2) { //checking to make sure whoever is logged in can edit this chore
+    		if(choreHouse.equals(userHouse) && u.getRoles().size() >= 2) { //checking to make sure whoever is logged in can edit this chore
     			choreToEdit.setTitle(chore.getTitle());
     			choreToEdit.setAssignee(chore.getAssignee());
     			choreToEdit.setDescription(chore.getDescription());
