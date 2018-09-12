@@ -246,6 +246,19 @@ public class UserController {
     @RequestMapping(value="/chores/new", method=RequestMethod.POST)
     public String createChore(@Valid @ModelAttribute("chore") Chore chore, BindingResult result, Model model, HttpSession session, Principal principal) {
        if (result.hasErrors()) {
+    	   String email = principal.getName();
+           User user = userService.findByEmail(email);
+           House house = user.getHouse();
+           model.addAttribute("user", user);
+           model.addAttribute("house", house);
+           session.setAttribute("userId", user.getId());
+           List<Chore> chores = choreService.allChoresFromHome(house);
+   		   model.addAttribute("chores", chores);
+           if(user.getRoles().size() > 2) { // super sees every user
+           	 model.addAttribute("allUsers", userService.everyUser());
+           } else if (user.getRoles().size() > 1) { //admins just see their house mates
+           	 model.addAttribute("allUsers", userService.allUsers(house)); 
+           }
            return "admindash.jsp";
        } else {
     	   	String email = principal.getName();
@@ -264,41 +277,39 @@ public class UserController {
    		choreService.deleteChore(id);
    		return "redirect:/home";
    	}
-    
-    @RequestMapping("chores/{idEdit}/edit")
-    public String edit(@ModelAttribute("chore") Chore chore, @PathVariable("idEdit") Long id, Principal principal, Model model, HttpSession session) {
-    	String email = principal.getName();
-    	User user = userService.findByEmail(email);
-        model.addAttribute("user", user);
-        House house = user.getHouse();
-        model.addAttribute("allUsers", userService.allUsers(house));
-        session.setAttribute("userId", user.getId());
-    	List<Chore> chores = choreService.allChoresFromHome(house);
-		model.addAttribute("chores", chores);
-    	Chore choreToEdit = choreService.findOne(id);
-//    	Long currentUser = (Long) session.getAttribute("userId");
-//    	if (choreToEdit.getCreator().getId() != currentUser) {
-//    		return "redirect:/admin";
-//    	} else {
-    	model.addAttribute("chore", choreToEdit);
-		model.addAttribute("house", house);
-    	return "/edit.jsp";  
-//    	}
-    }
-    
+        
     @PostMapping("/chores/{id}/edit")
-    public String editChore(@Valid@ModelAttribute("chore") Chore chore, BindingResult result, @PathVariable("id") Long id, Model model, HttpSession session, Principal principal) {
+    public String editChore(@Valid@ModelAttribute("chore") Chore chore, BindingResult result, @PathVariable("id") Long id, Model model, Principal principal) {
     	if (result.hasErrors()) {
     		User user = userService.findByEmail(principal.getName());
-    		List<User> users = userService.allUsers(user.getHouse());
-    		model.addAttribute("users", users);
-            return "/edit.jsp";
+            House house = user.getHouse();
+            model.addAttribute("user", user);
+            model.addAttribute("house", house);
+            
+            List<Chore> chores = choreService.allChoresFromHome(house);
+    		model.addAttribute("chores", chores);
+            if(user.getRoles().size() > 2) { // super sees every user
+            	 model.addAttribute("allUsers", userService.everyUser());
+            } else if (user.getRoles().size() > 1) { //admins just see their house mates
+            	 model.addAttribute("allUsers", userService.allUsers(house)); 
+            }
+            return "admindash.jsp";
     	} else {
-    		Long currentUser = (Long) session.getAttribute("userId");
-    		User u = userService.findById(currentUser);
-    		chore.setCreator(u);
-    		choreService.updateChore(chore);
-    		return "redirect:/chores/{id}/edit";
+    		User u = userService.findByEmail(principal.getName());
+    		House userHouse = u.getHouse();
+    		Chore choreToEdit = choreService.findOne(id);
+    		House choreHouse = choreToEdit.getHouse();
+    		if(choreHouse.equals(userHouse) && u.getRoles().size() > 2) { //checking to make sure whoever is logged in can edit this chore
+    			choreToEdit.setTitle(chore.getTitle());
+    			choreToEdit.setAssignee(chore.getAssignee());
+    			choreToEdit.setDescription(chore.getDescription());
+    			choreToEdit.setPriority(chore.getPriority());
+    			choreService.updateChore(choreToEdit);
+    			return "redirect:/admin";
+    		} else {
+    			// Nice try but chore won't be edited and we won't tell them
+    			return "redirect:/admin";
+    		}
     	} 
     }
     
