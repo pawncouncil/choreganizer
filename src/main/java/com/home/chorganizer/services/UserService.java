@@ -105,6 +105,10 @@ public class UserService {
         userRepository.save(user);
     }
     
+    public void updateAccount(User user) {
+    	userRepository.save(user);
+    }
+    
     public void updateSignIn(User user) {
     	user.setLastSignIn(new Date());
     	userRepository.save(user);

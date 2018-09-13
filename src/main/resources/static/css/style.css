@@ -17,16 +17,24 @@
     background: #1f1f1f;
 	padding-left: 10px;
     padding-top: 10px;
-    width: auto;
+    width: 100%;
+    display: inline-block;
 }
   
 .headera{
 	color: white;
 	margin-top: 5px;
-	margin-left: 400px;
+	margin-right: 5px;
+	float: right;
+	/* margin-left: 300px; */
+	display: inline-block;
 }
 
-.headera:hover	{
+.headera a{
+	color: white;
+}
+
+.headera a:hover	{
 	color: rgb(0, 225, 255);
 	text-decoration: none;
 }
@@ -37,7 +45,7 @@
     vertical-align: top;
     font-size: 35px;
     display: inline;
-    margin-left: 480px; 
+    /* margin-left: 480px; */ 
     text-decoration: none;
 }
 
@@ -230,7 +238,7 @@ p{
 }
 
 .row-fluid input[type=text] {
-	width: 200px;
+	width: 284px;
 }
 
 #newChore {

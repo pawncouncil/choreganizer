@@ -287,7 +287,7 @@ public class UserController {
     }
     
     @PostMapping("/chores/{id}/edit")
-    public String editChore(@Valid@ModelAttribute("chore") Chore chore, BindingResult result, @PathVariable("id") Long id, Model model, HttpSession session, Principal principal) {
+    public String editChore(@Valid @ModelAttribute("chore") Chore chore, BindingResult result, @PathVariable("id") Long id, Model model, HttpSession session, Principal principal) {
     	if (result.hasErrors()) {
     		User user = userService.findByEmail(principal.getName());
     		List<User> users = userService.allUsers(user.getHouse());
@@ -313,4 +313,34 @@ public class UserController {
         }
     }
     
+    @RequestMapping("/user/{id}/update")
+    public String update(@ModelAttribute("user")User user, Model model, Principal principal, @PathVariable("id") Long id) {
+    	User logUser = userService.findByEmail(principal.getName());
+    	Long userId = logUser.getId();
+    	if(id.equals(userId)) {
+	    	User currUser = userService.findById(id);
+	    	model.addAttribute("currUser", currUser);
+	    	return "updateUser.jsp";
+    	} else {
+    		// make an error here for bad boys
+    		return "redirect:/";
+    	}
+    }
+    
+    @PostMapping("/user/{id}/update")  
+    public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult result, @PathVariable("id") Long id, Model model, Principal principal) {
+    	if (result.hasErrors()) {
+    		User currUser = userService.findByEmail(principal.getName());
+        	model.addAttribute("currUser", currUser);
+        	return "updateUser.jsp";
+    	} else {
+    		User currUser = userService.findByEmail(principal.getName());
+    		currUser.setEmail(user.getEmail());
+    		currUser.setFirst(user.getFirst());
+    		currUser.setLast(user.getLast());
+    		currUser.setPhone(user.getPhone());
+	    	userService.updateAccount(currUser);
+	    	return "redirect:/home";
+    	}
+    }
 }

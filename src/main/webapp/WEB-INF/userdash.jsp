@@ -21,10 +21,13 @@
 </head>
 <body>
 	<div id="wrapper">
-	<div class="headers">
-        <h1 id="logo">House ${house.name}</h1>
-         <a href="/logout" class="headera">Logout</a>
-    </div>
+		<div class="headers">
+	        <h1 id="logo">House ${house.name}</h1>
+	        <div class="headera">
+		        <a href="/user/${user.id}/update">Update User</a><span>  |  </span>
+	         	<a href="/logout" >Logout</a>
+         	</div>
+        </div>
     <div class="container">
 	    <div class="user">
 	        <h1>Welcome Home, ${user.first}!</h1>
