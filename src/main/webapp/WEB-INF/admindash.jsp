@@ -20,7 +20,63 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-     
+    <script>
+	    $(document).ready(function(){
+	    		
+	    	// Target the modal
+	        var modal = document.getElementById("createModal");
+	    	
+            // When the user clicks the create button, open the modal
+            $("#create").click(function(e) {
+                $("#modalTitle").html("Create Chore");
+                $("#newChore").attr("action", "/chores/new");
+                $("#title").val("");
+     			$("#description").val("");
+     			$("#priority").val("");
+     			$("#assignee").val("");
+                $('#submit').val("Create");
+            	$(modal).show();
+                $("#title").focus();
+                e.stopPropagation();
+            });
+               
+            // When the user clicks on <span> (x), close the modal
+            $("#closeCreate").click(function(e) {
+            	$(modal).hide();
+            	e.stopPropagation();
+            });
+            
+            $("#choreError").click(function(e) {
+            	$(".alert").hide();
+            	e.stopPropagation();
+            });
+
+            // When the user clicks anywhere outside of the modal, close it
+            $(document).click(function(event) {
+                if ( $("#createForm").has(event.target).length == 0 && modal.style.display == "block" ) {
+                	$(modal).hide();
+                	event.stopPropagation();
+                }
+            });
+            
+            // Edit Chore
+            $(".edit").click(function() {fillModal($(this).attr("id"))});
+            
+            function fillModal(id){
+            	$("#modalTitle").html("Edit Chore");
+            	$.get("/chores/"+ id +"/edit", function(chore) {
+         			$("#newChore").attr("action", "/chores/"+ id +"/edit");
+         			$("#title").val(chore.title);
+         			$("#description").val(chore.description);
+         			$("#priority").val(chore.priority);
+         			$("#assignee").val(chore.assignee.id);
+         			$('#submit').val("Edit");
+         			$("#createModal").show();
+            	}); 
+            }
+            
+	     });
+   	 </script>
 
 </head>
 <body>
@@ -28,8 +84,18 @@
 		<div class="headers">
 			<a class="homebutton" href="/home"><i class="fas fa-home"></i></a>
 	        <a href="/home" class="logolink"><h1 id="logo">House ${house.name}</h1></a>
-	        <a href="/logout" class="headera">Logout</a>
+	        <span id="create" class="headera" >Create Chore</span>
+	        <a href="/logout" class="headerb">Logout</a>
 	    </div>
+	    <!-- Invalid Registration Alert -->
+		<c:set var="formErrors"><form:errors path="chore.*"/></c:set>
+		<c:if test="${not empty formErrors}">
+			<div class="alert alert-danger">
+				<span class="close" id="choreError">&times;</span>
+				<form:errors path="chore.*"/>
+			</div>
+		</c:if>
+	<!-- Admin Dashboard -->
 	    <div class="container">
 	        <h1>Welcome, ${user.first}</h1> 
 	        <div class="scroll">
@@ -93,7 +159,7 @@
 					  </tr>
 					</thead>
 					<tbody>
-					  <c:forEach items="${chores}" var="chore"> 
+					  <c:forEach items="${chores}" var="chore">
 					  <tr>
 					  	<td>${chore.title}</td>
 					    <td>${chore.description}</td>
@@ -106,7 +172,7 @@
 						    <td><c:out value="High"/></td>
 					    </c:if>
 						<td>
-							<a href="/chores/${chore.id}/edit">Edit  |</a>
+							<a href="#" id="${chore.id}" class="edit">Edit  |</a>
 							<a href="/chores/${chore.id}/delete">  Delete</a>
 						</td>
 					  </tr>
@@ -150,29 +216,42 @@
 				</div>
 
 			</div> 
-			<form:form method="POST" action="/chores/new" modelAttribute="chore" id="newChore"> 
-		    	<form:input path="title"/>
-		    	<p>Chore<br></p>
-		       
-		       <form:input path="description"/>
-		        <p>Description<br> </p>
-		     
-		     	<form:select path="priority">
-						<form:option value="1">Low</form:option>
-						<form:option value="2">Medium</form:option>
-						<form:option value="3">High</form:option>
-				</form:select>
-				<p>Priority</p>
-				
-		       <form:select path="assignee" >
-		            <c:forEach items="${allUsers}" var="x">
-		                <form:option value="${x.id}">${x.first}</form:option>
-		            </c:forEach>
-		        </form:select>
-		        <p>Assignee</p>
-					       
-		        <input type="submit" value="Create"/>
-		    </form:form>
+			
+		    <!-- The Modal for creating Chore -->
+		    <div id="createModal" class="modal">
+			    <!-- Modal content to login -->
+			    <div class="modal-content" id="createForm">
+			    	<span class="close" id="closeCreate">&times;</span>
+			    	<h1 id="modalTitle"></h1>
+				    <form:form method="POST" action="/chores/new" modelAttribute="chore" id="newChore"> 
+				    	<form:input path="title"/>
+				    	<p>Chore<br>
+				    	<form:errors path="title" class="text text-danger"/></p>
+				       	
+				       	<form:input path="description"/>
+				        <p>Description<br>
+				        <form:errors path="description" class="text text-danger"/> </p>
+				     
+				     	<form:select path="priority">
+								<form:option value="1">Low</form:option>
+								<form:option value="2">Medium</form:option>
+								<form:option value="3">High</form:option>
+						</form:select>
+						<p>Priority<br>
+						<form:errors path="priority" class="text text-danger"/></p>
+						
+				       	<form:select path="assignee" >
+				            <c:forEach items="${allUsers}" var="x">
+				                <form:option value="${x.id}">${x.first}</form:option>
+				            </c:forEach>
+				        </form:select>
+				        <p>Assignee<br>
+				        <form:errors path="assignee" class="text text-danger"/></p>
+							       
+				        <input type="submit" id="submit"/>
+				    </form:form>
+				</div>
+		    </div>
 		</div>
 	</div>
 </body>

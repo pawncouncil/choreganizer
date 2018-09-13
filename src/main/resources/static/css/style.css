@@ -34,10 +34,19 @@
 	color: white;
 }
 
-.headera a:hover	{
+
+.headerb {
+	color: white;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+.headera:hover, .headerb:hover	{
 	color: rgb(0, 225, 255);
 	text-decoration: none;
+	cursor: pointer;
 }
+
   
 #logo{
     color: rgb(0, 225, 255);
@@ -153,7 +162,7 @@ tr{
 }
 
 input[type=text], select, textarea {
-    width: 341px;
+    width: 100%;
     padding: 6px;
     background-color: #fafafa;
     border: 1px solid #ccc;
@@ -173,7 +182,7 @@ label {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-left: 210px;
+    float: right;
 }
 
 .button{
@@ -200,7 +209,7 @@ label {
 
 p{
 	margin-left: 5px;
-	color: #d5d5d5;
+	color: #1f1f1f;
 }
 
 .container {
@@ -242,7 +251,6 @@ p{
 }
 
 #newChore {
-	float: right;
 	display: inline-block;
 	verticle-align: top; 
 }
@@ -250,3 +258,51 @@ p{
 form {
 	display: inline-block;
 }
+
+/* Modal Related CSS  */
+	  .modal {
+	      display: none;
+	      position: fixed;
+	      z-index: 2;
+	      padding-top: 100px;
+	      left: 0;
+	      top: 0;
+	      width: 30%;
+	      height: 100%;
+	      overflow: auto;
+	      background-color: rgb(0,0,0);
+	      background-color: rgba(0,0,0,0.4);
+	      margin-left: 400px;
+	  }
+	
+	  .modal-content {
+	      background-color: #fefefe;
+	      margin: auto;
+	      padding: 20px;
+	      border: 1px solid #888;
+	      width: 80%;
+	      z-index: 3;
+	  }
+	  
+	  .text-danger {
+	  		font-size: .8em;	
+	  }
+	  
+	  .close {
+	      color: #aaaaaa;
+	      float: right;
+	      font-size: 28px;
+	      font-weight: bold;
+	      z-index: 20010;
+	      display: inline-block;
+	  }
+	
+	  .close:hover, .close:focus {
+	      color: #000;
+	      text-decoration: none;
+	      cursor: pointer;
+	  }
+	  .alert{
+	  	width: 400px;
+	  }
+	    

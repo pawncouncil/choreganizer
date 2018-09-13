@@ -16,10 +16,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
-import com.home.chorganizer.models.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="chores")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Chore {
 
 	@Id
@@ -36,12 +38,15 @@ public class Chore {
     private Date updatedAt;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="creatorId")
+	@JsonIgnore
 	private User creator;
+    
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="assigneeId")
 	private User assignee;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="house_id", referencedColumnName = "id")
+	@JsonIgnore
 	private House house;
 	
 	public Chore() {}

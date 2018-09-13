@@ -8,15 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="roles")
 public class Role {
     @Id
     @GeneratedValue
     private Long id;
-    
     private String type;
     
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
     

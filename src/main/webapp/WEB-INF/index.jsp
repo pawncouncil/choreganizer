@@ -84,7 +84,7 @@
  <!-- The Header -->
     <div class="header">
         <a class="homebutton" href="/home"><i class="fas fa-home"></i></a>
-        <a href="/home"class="logolink"><h1 id="logo">Choreganizer</h1></a>
+        <a href="/home" class="logolink"><h1 id="logo">Choreganizer</h1></a>
         <c:if test="${sessionScope.userId == null}">
 	        <a id="myBtn" >Login</a>
 	        <a id="myBtnTwo" >Register</a>
@@ -142,7 +142,7 @@
 			        <p><form:label path="first">First Name: </form:label><br><form:input path="first"/><br><form:errors path="first" class="text text-danger"/></p>
 			        <p><form:label path="last">Last Name: </form:label><br><form:input path="last"/><br><form:errors path="last" class="text text-danger"/></p>
 			        <form:label path="phone">Phone: </form:label><br>
-		    		<p><form:input type="tel" path="phone" name="phone"
+		    		<p><form:input type="tel" path="phone"
 			           placeholder="123-456-7890"
 			           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
 			           required= "true" />
