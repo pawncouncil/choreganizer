@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -187,39 +186,31 @@ public class UserController {
     }    
  
     @PostMapping("/admin/make-admin/{id}")
-    public String makeAd(@PathVariable("id") Long id, Principal principal){
+    public void makeAd(@PathVariable("id") Long id, Principal principal){
         User user = userService.findById(id);
         House userHome = user.getHouse();
         User housemate = userService.findByEmail(principal.getName());
         House currentHome = housemate.getHouse();
         if(housemate.getRoles().size() > 2 || (housemate.getRoles().size() > 1 && currentHome.equals(userHome))) { // Requestor must be super user and fellow house admin
 	        userService.updateAdmin(user);
-	        return "redirect:/admin";
-        } else {
-        	return "redirect:/admin";
-        }
+        } 
         
     }
     @PostMapping("/admin/take-admin/{id}")
-    public String takeAd(@PathVariable("id") Long id, Principal principal){
+    public void takeAd(@PathVariable("id") Long id, Principal principal){
         User user = userService.findById(id);
         User housemate = userService.findByEmail(principal.getName());
         if(housemate.getRoles().size() > 2 || (housemate.getRoles().size() > 1 && housemate.getHouse().equals(user.getHouse()))) { // Requestor must be super user/house admin and fellow house admin
 	        userService.updatePleb(user);
-	        return "redirect:/admin";
-        } else {
-        	return "redirect:/admin";
-        }
+        } 
     }
+    
     @PostMapping("/admin/delete/{id}")
-    public String delete(@PathVariable("id") Long id, Principal principal){
+    public void delete(@PathVariable("id") Long id, Principal principal){
     	User housemate = userService.findByEmail(principal.getName());
     	if(housemate.getRoles().size() > 2) { // Requestor must be super user
 	    	userService.deleteUser(id);
-	        return "redirect:/admin";
-    	} else {
-    		return "redirect:/admin";
-    	}
+    	} 
     }
     
     @PostMapping("/admin/remove/{id}")
@@ -272,14 +263,19 @@ public class UserController {
 
     }
     
-    @GetMapping("/chores/{id}/delete")
-   	public String deleteChore(@PathVariable("id")Long id) {
-   		choreService.deleteChore(id);
-   		return "redirect:/home";
+    @PostMapping("/chores/{id}/delete")
+   	public void deleteChore(@PathVariable("id")Long id, Principal principal) {
+    	Chore choreToDelete = choreService.findOne(id);
+    	House choreHouse = choreToDelete.getHouse();
+    	User user = userService.findByEmail(principal.getName());
+    	House userHouse = user.getHouse();
+    	if(choreHouse.equals(userHouse)) {
+    		choreService.deleteChore(id);
+    	}
    	}
         
     @PostMapping("/chores/{id}/edit")
-    public String editChore(@Valid@ModelAttribute("chore") Chore chore, BindingResult result, @PathVariable("id") Long id, Model model, Principal principal) {
+    public String editChore(@Valid @ModelAttribute("chore") Chore chore, BindingResult result, @PathVariable("id") Long id, Model model, Principal principal) {
     	if (result.hasErrors()) {
     		User user = userService.findByEmail(principal.getName());
             House house = user.getHouse();

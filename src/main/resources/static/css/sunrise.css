@@ -101,15 +101,6 @@
     -ms-transform: rotateX(-90deg);
 }
 
-#mountainRange {
-	position: absolute;
-	left: 0px;
-	width: 100%;
-	bottom: 50%;
-	display: none;
-	z-index: 999;
-}
-
 .star {
 	position: absolute;
 	display: block;
@@ -161,27 +152,24 @@
 	content: '';
 }
 
-#mountain {
-	border-bottom: 100px solid #000;
-	border-right: 100px solid transparent;
-	border-width-right: 50%;
-	width: 0px;
-	height: 0px;
+#mountains {
 	position: absolute;
-	left: 0px;
-	bottom: 50%;
-	z-index: 997;
-}
-
-#mountains{
+	width: 100%;
+	top: 45px;
+	height: 49.5%;
 	z-index: 998;
-	position: absolute;
-	top: 20.5%;
 }
 
 #mountains img {
 	width: 100%;
-	height: 100%;
+	height: auto;
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+   position: absolute;
+   bottom: 0%;
 }
 
 #horizon {

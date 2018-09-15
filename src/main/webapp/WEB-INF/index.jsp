@@ -7,80 +7,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Chorganizer</title>
-    <link rel="stylesheet" type="text/css" href="/css/sunrise.css">
-    <link rel="stylesheet" type="text/css" href="/css/homepage.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/sunrise.css">
+    <link rel="stylesheet" type="text/css" href="/css/homepage.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/app.js"></script>
-    <script>
-	    $(document).ready(function(){
-	    		eventStart();
-		    	// Get the modal
-		        var modal = document.getElementById("myModal");
-		    	
-		    	 // Get the second modal
-	            var modal2 = document.getElementById("myModal2");
-	
-	            // When the user clicks the login button, open the modal
-	            $("#myBtn").click(function(e) {
-	                $(modal).show()
-	                $(modal2).hide();
-	                $("#loginEmail").focus();
-	                e.stopPropagation();
-	                eventStop();
-	            });
-	            
-	            // When the user clicks the register button, open the modal
-	            $("#myBtnTwo").click(function(e) {
-	                $(modal2).show();
-	                $(modal).hide();
-	                $("#email").focus();
-	                e.stopPropagation();
-	                eventStop();
-	            });
-	
-	            //closes alert box
-	            $("#logout").click(function(e) {
-	            	$(".alert").hide();
-	            	e.stopPropagation();
-	            });
-	            $("#logError").click(function(e) {
-	            	$(".alert").hide();
-	            	e.stopPropagation();
-	            });
-	            $("#regError").click(function(e) {
-	            	$(".alert").hide();
-	            	e.stopPropagation();
-	            });
-	   
-	            // When the user clicks on <span> (x), close the modal
-	            $("#closeLogin").click(function() {
-	            	$(modal).hide();
-	            	eventStart();
-	            });
-	            
-	            $("#closeReg").click(function() {
-	            	$(modal2).hide();
-	            	eventStart();
-	            });
-	
-	            // When the user clicks anywhere outside of the modal, close it
-	            $(document).click(function(event) {
-	                if ( $('#logForm').has(event.target).length == 0 && modal.style.display == 'block' ) {
-	                	$(modal).hide();
-	                	eventStart();
-	                }
-	            	if ( $('#regForm').has(event.target).length == 0 && modal2.style.display == 'block' ) {
-	                	$(modal2).hide();
-	                	eventStart();
-	                }
-	            });
-	        });
-   	</script>
+    <script src="/js/landing.js"></script>
 </head>
-<body onmouseup="stopMove();" onresize="windowResize();">
+<body onmouseup="stopMove();">
  <!-- The Header -->
     <div class="header">
         <a class="homebutton" href="/home"><i class="fas fa-home"></i></a>
@@ -180,15 +116,11 @@
 	
 	  <div id="moon" onmousedown="startMove();" onmouseup="stopMove();"></div>
 	  
-	  <div id="mountainRange">
-	    <div id="mountain" onmousedown="startMove();" onmouseup="stopMove();">
-	  </div>
-	<!-- Sky/Ground Divider -->
-	  </div>
+	  <div id="mountains" ><img src="/images/cascades.png"></div>
 	  
-	  <div id="division" onmouseup="stopMove();">
-	
-	  </div>
+	<!-- Sky/Ground Divider -->
+	  
+	  <div id="division" onmouseup="stopMove();"></div>
 	  
 	  <div id="water" onmousedown="startMove();" onmouseup="stopMove();"></div>
 	  <div id="waterDistance"  onmousedown="startMove();" onmouseup="stopMove();"></div>
@@ -196,7 +128,6 @@
 	  <div id="darknessOverlay"></div>
 	  <div id="oceanRippleContainer"></div>
 	  <div id="oceanRipple"></div>
-	  <div id="mountains"><img src="/images/cascades.png"></div>
   </div>
 </body>
 </html>

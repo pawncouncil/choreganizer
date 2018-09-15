@@ -13,70 +13,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Dash</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>
-	    $(document).ready(function(){
-	    		
-	    	// Target the modal
-	        var modal = document.getElementById("createModal");
-	    	
-            // When the user clicks the create button, open the modal
-            $("#create").click(function(e) {
-                $("#modalTitle").html("Create Chore");
-                $("#newChore").attr("action", "/chores/new");
-                $("#title").val("");
-     			$("#description").val("");
-     			$("#priority").val("");
-     			$("#assignee").val("");
-                $('#submit').val("Create");
-            	$(modal).show();
-                $("#title").focus();
-                e.stopPropagation();
-            });
-               
-            // When the user clicks on <span> (x), close the modal
-            $("#closeCreate").click(function(e) {
-            	$(modal).hide();
-            	e.stopPropagation();
-            });
-            
-            $("#choreError").click(function(e) {
-            	$(".alert").hide();
-            	e.stopPropagation();
-            });
-
-            // When the user clicks anywhere outside of the modal, close it
-            $(document).click(function(event) {
-                if ( $("#createForm").has(event.target).length == 0 && modal.style.display == "block" ) {
-                	$(modal).hide();
-                	event.stopPropagation();
-                }
-            });
-            
-            // Edit Chore
-            $(".edit").click(function() {fillModal($(this).attr("id"))});
-            
-            function fillModal(id){
-            	$("#modalTitle").html("Edit Chore");
-            	$.get("/chores/"+ id +"/edit", function(chore) {
-         			$("#newChore").attr("action", "/chores/"+ id +"/edit");
-         			$("#title").val(chore.title);
-         			$("#description").val(chore.description);
-         			$("#priority").val(chore.priority);
-         			$("#assignee").val(chore.assignee.id);
-         			$('#submit').val("Edit");
-         			$("#createModal").show();
-            	}); 
-            }
-            
-	     });
-   	 </script>
+    <script src="/js/dashboard.js"></script>
 
 </head>
 <body>
@@ -119,11 +62,11 @@
 			                       <c:if test="${single.getRoles().size() == 3}">Super Admin</c:if>
 			                       <c:if test="${single.getRoles().size() != 3}">
 			                       <c:if test="${single == user}">Admin</c:if>
-			                       <c:if test="${single != user}">
-			                       <form action="/admin/delete/${single.id}" method="POST"> <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="submit" class="btn btn-danger" value="Delete User" /></form>
-			                       <c:if test="${single.getRoles().size() == 1}"> | <form action="/admin/make-admin/${single.id}" method="POST"> <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="submit" class="btn btn-primary" value="Make Admin" /></form></c:if>
-			                       <c:if test="${single.getRoles().size() == 2}"> | <form action="/admin/take-admin/${single.id}" method="POST"> <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="submit" class="btn btn-warning" value="Revoke Admin" /></form></c:if>
-			                       </c:if>
+				                       <c:if test="${single != user}">
+				                       		<a href="#" id="A${single.id}" class="userDelete">Delete User</a>
+				                       <c:if test="${single.getRoles().size() == 1}"> | <a href="#" id="B${single.id}" class="makeAdmin">Make Admin</a></c:if>
+				                       <c:if test="${single.getRoles().size() == 2}"> | <a href="#" id="C${single.id}" class="takeAdmin">Take Admin</a></c:if>
+				                       </c:if>
 			                       </c:if>
 			                   </td>
 			                    </c:if>
@@ -132,7 +75,7 @@
 			                    <td>Admin</td>
 			                    </c:if>
 			                    <c:if test="${single.getRoles().size() == 1}">
-			                    <td><form action="/admin/delete/${single.id}" method="POST"> <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="submit" class="btn btn-danger" value="Delete User" /></form> | <form action="/admin/make-admin/${single.id}" method="POST"> <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/><input type="submit" class="btn btn-primary" value="Make Admin" /></form></td>
+			                    <td><a href="#" id="F${single.id}" class="userDelete">Delete User</a> | <a href="#" id="G${single.id}" class="makeAdmin">Make Admin</a></td>
 			                    </c:if>
 			                    </c:if>
 			                   	<c:if test="${single.lastSignIn == null}">
@@ -172,8 +115,8 @@
 						    <td><c:out value="High"/></td>
 					    </c:if>
 						<td>
-							<a href="#" id="${chore.id}" class="edit">Edit  |</a>
-							<a href="/chores/${chore.id}/delete">  Delete</a>
+							<a href="#" id="E${chore.id}" class="edit">Edit  |</a>
+							<a href="#" id="D${chore.id}" class="delete">  Delete</a>
 						</td>
 					  </tr>
 					  </c:forEach>
@@ -210,7 +153,7 @@
 				<div class="row-fluid">
 					<form id="new-user" action="/message" method="post">
 						<input type="text" name="message" placeholder="Message" />
-						<input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						<input type="hidden"  id="csrf" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 						<input type="submit" id="send" class="btn btn-primary" value="Post">
 					</form>		
 				</div>
