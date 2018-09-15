@@ -47,6 +47,7 @@ public class UserController {
         this.userService.makeRoles();
     }
     
+    // site landing page
     @RequestMapping("/login")
     public String login(@ModelAttribute("user") User user, @RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model, HttpSession session) {
     	if(logout != null) {
@@ -58,7 +59,7 @@ public class UserController {
         return "index.jsp";
     }
     
-    
+    // site registration processing
     @PostMapping("/register")
     public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, @RequestParam("password") String password, Model model, HttpSession session, HttpServletRequest request) {
         userValidator.validate(user, result);
@@ -139,6 +140,7 @@ public class UserController {
     	}
     }
     
+    // user dashboard
     @RequestMapping(value= {"/", "/home"})
     public String user(@ModelAttribute("chore") Chore chore, HttpSession session, Principal principal, Model model, @RequestParam(value="priority", required=false) String priority) {
     	String email = principal.getName();
@@ -161,6 +163,7 @@ public class UserController {
         return "userdash.jsp";
     }
     
+    // admin dashboard
     @RequestMapping("/admin")
     public String admin(@ModelAttribute("chore") Chore chore, HttpSession session, Principal principal, Model model, @RequestParam(value="priority", required=false) String priority) {
         String email = principal.getName();
@@ -185,6 +188,7 @@ public class UserController {
         return "admindash.jsp";
     }    
  
+    // promoting user to admin
     @PostMapping("/admin/make-admin/{id}")
     public void makeAd(@PathVariable("id") Long id, Principal principal){
         User user = userService.findById(id);
@@ -196,6 +200,8 @@ public class UserController {
         } 
         
     }
+    
+    // revoking admin status
     @PostMapping("/admin/take-admin/{id}")
     public void takeAd(@PathVariable("id") Long id, Principal principal){
         User user = userService.findById(id);
@@ -205,6 +211,7 @@ public class UserController {
         } 
     }
     
+    // delete a user
     @PostMapping("/admin/delete/{id}")
     public void delete(@PathVariable("id") Long id, Principal principal){
     	User housemate = userService.findByEmail(principal.getName());
@@ -213,6 +220,7 @@ public class UserController {
     	} 
     }
     
+    // remove user from house    
     @PostMapping("/admin/remove/{id}")
     public String remove(@PathVariable("id") Long id, Principal principal){
     	User user = userService.findById(id);
@@ -225,6 +233,7 @@ public class UserController {
     	}
     }
     
+    // logout user
     @RequestMapping("/logout")
     public String logout(Principal principal, HttpSession session) {
     	String email = principal.getName();
@@ -234,6 +243,7 @@ public class UserController {
         return "redirect:/login?logout";
     }
     
+    //create new chore
     @RequestMapping(value="/chores/new", method=RequestMethod.POST)
     public String createChore(@Valid @ModelAttribute("chore") Chore chore, BindingResult result, Model model, HttpSession session, Principal principal) {
        if (result.hasErrors()) {
@@ -263,6 +273,7 @@ public class UserController {
 
     }
     
+    // delete a chore
     @PostMapping("/chores/{id}/delete")
    	public void deleteChore(@PathVariable("id")Long id, Principal principal) {
     	Chore choreToDelete = choreService.findOne(id);
@@ -272,8 +283,10 @@ public class UserController {
     	if(choreHouse.equals(userHouse)) {
     		choreService.deleteChore(id);
     	}
+    	
    	}
         
+    // edit a chore
     @PostMapping("/chores/{id}/edit")
     public String editChore(@Valid @ModelAttribute("chore") Chore chore, BindingResult result, @PathVariable("id") Long id, Model model, Principal principal) {
     	if (result.hasErrors()) {
@@ -309,6 +322,7 @@ public class UserController {
     	} 
     }
     
+    //add message
     @PostMapping("/message")
     public String addMessage(@RequestParam("message")String message, Principal principal) {
     	User user = userService.findByEmail(principal.getName());
@@ -320,4 +334,36 @@ public class UserController {
         }
     }
     
+    //update user info form
+    @RequestMapping("/user/{id}/update")
+    public String update(@ModelAttribute("user")User user, Model model, Principal principal, @PathVariable("id") Long id) {
+    	User logUser = userService.findByEmail(principal.getName());
+    	Long userId = logUser.getId();
+    	if(id.equals(userId)) {
+	    	User currUser = userService.findById(id);
+	    	model.addAttribute("currUser", currUser);
+	    	return "updateUser.jsp";
+    	} else {
+    		// make an error here for bad boys
+    		return "redirect:/";
+    	}
+    }
+    
+    //update user info processor
+    @PostMapping("/user/{id}/update")  
+    public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult result, @PathVariable("id") Long id, Model model, Principal principal) {
+    	if (result.hasErrors()) {
+    		User currUser = userService.findByEmail(principal.getName());
+        	model.addAttribute("currUser", currUser);
+        	return "updateUser.jsp";
+    	} else {
+    		User currUser = userService.findByEmail(principal.getName());
+    		currUser.setEmail(user.getEmail());
+    		currUser.setFirst(user.getFirst());
+    		currUser.setLast(user.getLast());
+    		currUser.setPhone(user.getPhone());
+	    	userService.updateAccount(currUser);
+	    	return "redirect:/home";
+    	}
+    }
 }

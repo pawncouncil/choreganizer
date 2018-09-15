@@ -48,14 +48,13 @@ public class User {
     @JsonIgnore
     @Transient
     private String confirm;
-    @JsonIgnore
+    
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles", 
         joinColumns = @JoinColumn(name = "user_id"), 
         inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
-    @JsonIgnore
 	@DateTimeFormat(pattern="yyyy-MM-dd")
     private Date lastSignIn;
     @JsonIgnore
@@ -69,7 +68,6 @@ public class User {
     @JsonIgnore
     private List<Chore> assignedChores;
     @Column(updatable=false)
-    @JsonIgnore
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createdAt;
     @JsonIgnore

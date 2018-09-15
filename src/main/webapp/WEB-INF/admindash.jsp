@@ -19,10 +19,13 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
     <script src="/js/dashboard.js"></script>
 
 </head>
 <body>
+	<div id="Z${user.id}" class="userId"></div>
+	<div id="X${house.id}" class="houseId"></div>
 	<div id="wrapper">
 		<div class="headers">
 			<a class="homebutton" href="/home"><i class="fas fa-home"></i></a>
@@ -52,7 +55,7 @@
 		                <th>House Member Since</th>
 		              </tr>
 		            </thead>
-		            <tbody>
+		            <tbody id="userBody">
 		              <c:forEach items="${allUsers}" var="single">
 			                 <tr>
 			                   <td>${single.first} ${single.last}</td>
@@ -63,9 +66,9 @@
 			                       <c:if test="${single.getRoles().size() != 3}">
 			                       <c:if test="${single == user}">Admin</c:if>
 				                       <c:if test="${single != user}">
-				                       		<a href="#" id="A${single.id}" class="userDelete">Delete User</a>
-				                       <c:if test="${single.getRoles().size() == 1}"> | <a href="#" id="B${single.id}" class="makeAdmin">Make Admin</a></c:if>
-				                       <c:if test="${single.getRoles().size() == 2}"> | <a href="#" id="C${single.id}" class="takeAdmin">Take Admin</a></c:if>
+				                       		<a href="#" id="O${single.id}" class="userDelete">Delete User</a>
+				                       <c:if test="${single.getRoles().size() == 1}"> | <a href="#" id="S${single.id}" class="makeAdmin">Make Admin</a></c:if>
+				                       <c:if test="${single.getRoles().size() == 2}"> | <a href="#" id="S${single.id}" class="takeAdmin">Take Admin</a></c:if>
 				                       </c:if>
 			                       </c:if>
 			                   </td>
@@ -75,7 +78,7 @@
 			                    <td>Admin</td>
 			                    </c:if>
 			                    <c:if test="${single.getRoles().size() == 1}">
-			                    <td><a href="#" id="F${single.id}" class="userDelete">Delete User</a> | <a href="#" id="G${single.id}" class="makeAdmin">Make Admin</a></td>
+			                    <td><a href="#" id="D${single.id}" class="userDelete">Delete User</a> | <a href="#" id="A${single.id}" class="makeAdmin">Make Admin</a></td>
 			                    </c:if>
 			                    </c:if>
 			                   	<c:if test="${single.lastSignIn == null}">
@@ -101,7 +104,7 @@
 					    <th>Actions</th>
 					  </tr>
 					</thead>
-					<tbody>
+					<tbody id="choreBody">
 					  <c:forEach items="${chores}" var="chore">
 					  <tr>
 					  	<td>${chore.title}</td>
@@ -115,8 +118,7 @@
 						    <td><c:out value="High"/></td>
 					    </c:if>
 						<td>
-							<a href="#" id="E${chore.id}" class="edit">Edit  |</a>
-							<a href="#" id="D${chore.id}" class="delete">  Delete</a>
+							<a href="#" id="E${chore.id}" class="edit">Edit</a> | <a href="#" id="R${chore.id}" class="delete">  Delete</a>
 						</td>
 					  </tr>
 					  </c:forEach>
