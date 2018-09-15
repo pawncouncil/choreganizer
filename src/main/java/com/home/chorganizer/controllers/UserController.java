@@ -223,10 +223,12 @@ public class UserController {
     // remove user from house    
     @PostMapping("/admin/remove/{id}")
     public String remove(@PathVariable("id") Long id, Principal principal){
-    	User user = userService.findById(id);
-    	User housemate = userService.findByEmail(principal.getName());
-    	if(housemate.getRoles().size() > 2 || (housemate.getRoles().size() > 1 && housemate.getHouse().equals(user.getHouse()))) { // Requestor must be super user/house admin and fellow house admin
-	    	userService.removeHouse(user.getHouse(), user);
+    	User userToRemove = userService.findById(id);
+    	House userHouse = userToRemove.getHouse();
+    	User requestor = userService.findByEmail(principal.getName());
+    	House requestorHome = requestor.getHouse();
+    	if(requestor.getRoles().size() > 2 || (requestor.getRoles().size() > 1 && requestorHome.equals(userHouse))) { // Requestor must be super user/house admin and fellow house admin
+	    	userService.removeHouse(userHouse, userToRemove);
 	        return "redirect:/admin";
     	} else {
     		return "redirect:/admin";

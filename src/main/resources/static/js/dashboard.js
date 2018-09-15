@@ -47,7 +47,7 @@ $(document).ready(function(){
     	var csrf = $("#csrf").val();
     	$.post("/admin/delete/" + id, { "_csrf": csrf });
     	//if super user reload otherwise get all the user info
-    	if($(this).attr("id")[0] === 'O'){
+    	if($(this).attr("id")[0] === 'D'){
     		location.reload();
     	} else{
 	    	setTimeout(function() {
@@ -58,6 +58,24 @@ $(document).ready(function(){
     	}
     	ev.preventDefault();
     });
+    
+    //Remove
+	$(".userRemove").click(function (ev) {
+		var id = $(this).attr("id").slice(1);
+		var csrf = $("#csrf").val();
+		$.post("/admin/remove/" + id, { "_csrf": csrf });
+		//if super user reload otherwise get all the user info
+		if($(this).attr("id")[0] === 'D'){
+			location.reload();
+		} else{
+	    	setTimeout(function() {
+		    	$.get("/home/users/"+houseId, function(users) {
+		    		fillUsers(users);
+		    	});
+	    	}, 200);
+		}
+		ev.preventDefault();
+	});
     
     // Make Admin
     $(".makeAdmin").click(function (ev) {

@@ -66,7 +66,7 @@
 			                       <c:if test="${single.getRoles().size() != 3}">
 			                       <c:if test="${single == user}">Admin</c:if>
 				                       <c:if test="${single != user}">
-				                       		<a href="#" id="O${single.id}" class="userDelete">Delete User</a>
+				                       		<a href="#" id="D${single.id}" class="userDelete">Delete User</a>
 				                       <c:if test="${single.getRoles().size() == 1}"> | <a href="#" id="S${single.id}" class="makeAdmin">Make Admin</a></c:if>
 				                       <c:if test="${single.getRoles().size() == 2}"> | <a href="#" id="S${single.id}" class="takeAdmin">Take Admin</a></c:if>
 				                       </c:if>
@@ -78,7 +78,7 @@
 			                    <td>Admin</td>
 			                    </c:if>
 			                    <c:if test="${single.getRoles().size() == 1}">
-			                    <td><a href="#" id="D${single.id}" class="userDelete">Delete User</a> | <a href="#" id="A${single.id}" class="makeAdmin">Make Admin</a></td>
+			                    <td><a href="#" id="R${single.id}" class="userRemove">Remove User</a> | <a href="#" id="A${single.id}" class="makeAdmin">Make Admin</a></td>
 			                    </c:if>
 			                    </c:if>
 			                   	<c:if test="${single.lastSignIn == null}">
@@ -118,7 +118,7 @@
 						    <td><c:out value="High"/></td>
 					    </c:if>
 						<td>
-							<a href="#" id="E${chore.id}" class="edit">Edit</a> | <a href="#" id="R${chore.id}" class="delete">  Delete</a>
+							<a href="#" id="E${chore.id}" class="edit">Edit</a> | <a href="#" id="D${chore.id}" class="delete">  Delete</a>
 						</td>
 					  </tr>
 					  </c:forEach>
