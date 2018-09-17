@@ -3,11 +3,17 @@
     box-sizing: border-box;
 }
 
-#wrapper{
-	background: #bdc3c7;  /* fallback for old browsers */
+html, body {
+    height: 100vh;
+    background: #bdc3c7;  /* fallback for old browsers */
 	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
 	background: linear-gradient(to top, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-	
+}
+
+.options {
+	display: inline-block;
+	position: absolute;
+	right: 10%;
 }
 
 .headers{
@@ -22,25 +28,10 @@
   
 .headera{
 	color: white;
-	margin-top: 5px;
-	margin-right: 5px;
-	float: right;
-	/* margin-left: 300px; */
-	display: inline-block;
+	margin: 0px 5px;
 }
 
-.headera a{
-	color: white;
-}
-
-
-.headerb {
-	color: white;
-	margin-top: 5px;
-	margin-left: 10px;
-}
-
-.headera:hover, .headerb:hover	{
+.headera:hover {
 	color: rgb(0, 225, 255);
 	text-decoration: none;
 	cursor: pointer;
@@ -53,7 +44,6 @@
     vertical-align: top;
     font-size: 35px;
     display: inline;
-    /* margin-left: 480px; */ 
     text-decoration: none;
 }
 
@@ -67,6 +57,8 @@
 .homebutton	{
     font-size: 16px;
     color: white;
+    position: absolute;
+    left: 10%;
  }
  
  .homebutton:hover {
@@ -78,8 +70,12 @@
  }
 
 .message {
-	width: 341px;
+	width: 340px;
 	display: inline-block;
+}
+
+#newMessage input[type=submit] {
+	margin-top: 5px;
 }
 
 .table {
@@ -226,10 +222,43 @@ p{
 }
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
     .col-25, .col-75, input[type=submit] {
         width: 30%;
         margin-top: 0;
+    }
+    
+    .container {
+    	text-align: center;
+    }
+    
+    #createModal {
+    	left: 10%;
+    	width: 80%;
+    	padding-top: 15%;
+    }
+    
+    .message, tbody {
+    	font-size: .75em;
+    }
+    
+    th {
+    	font-size: .8em;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .message, .scroll tr, .scroll2 tr {
+        width: 100%;
+    }
+    #newMessage input[type=text]{
+    	width: 100%
+    }
+    #newMessage input[type=submit] {
+    	width: 50%;
+    }
+    h1 {
+    	font-size: 1.7em;
     }
 }
 
@@ -289,7 +318,6 @@ form {
 	      float: right;
 	      font-size: 28px;
 	      font-weight: bold;
-	      z-index: 20010;
 	      display: inline-block;
 	  }
 	
@@ -299,7 +327,7 @@ form {
 	      cursor: pointer;
 	  }
 	  .alert{
-	  	width: 400px;
+	  	width: 50%;
 	  }
 	  
 .footer {
