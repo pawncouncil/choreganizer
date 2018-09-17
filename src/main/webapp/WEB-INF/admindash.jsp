@@ -127,7 +127,7 @@
 			</div>
 			<div class="message">
 				<div class="row-fluid">
-					<table class="table table-bordered table-striped">
+					<table class="table table-bordered">
 					
 						<thead>
 							<tr>

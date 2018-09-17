@@ -187,7 +187,7 @@ $(document).ready(function(){
     				html += "<td>Admin</td>"
     				break;
     			case 1:
-    				html += "<td><a href='#' id='D"+user.id+"' class='userDelete'>Delete User</a> | <a href='#' id='A"+user.id+"' class='makeAdmin'>Make Admin</a></td>"
+    				html += "<td><a href='#' id='D"+user.id+"' class='userRemove'>Remove User</a> | <a href='#' id='A"+user.id+"' class='makeAdmin'>Make Admin</a></td>"
     				break;
     		}
     		if(user.lastSignIn == null){

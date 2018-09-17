@@ -15,8 +15,7 @@
     height: 45px;
     text-align: center;
     background: #1f1f1f;
-	padding-left: 10px;
-    padding-top: 10px;
+	line-height: 45px;
     width: 100%;
     display: inline-block;
 }
@@ -86,6 +85,7 @@
 .table {
     table-layout: fixed;
     border-collapse: collapse;
+    /* font-size: .75em; */
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse; 
     height: 200px;
@@ -106,11 +106,13 @@ tr:after {
 
 thead th {
     height: 35px;
-
+	line-height: 10px;
+	padding: 0px;
     /*text-align: left;*/
 }
 
 tbody {
+	font-size: .75em;
     height: 150px;
     overflow-y: auto;
 }
@@ -135,7 +137,6 @@ thead  th{
     width: 20%;
     float: left;
     background-color: #fafafa;
- 
 }
 
 .scroll2 tbody td, thead th {
@@ -146,7 +147,8 @@ thead  th{
 
 tr{
  	background-color: #fafafa;
- 	width: 100%;	
+ 	width: 100%;
+ 		
  }
  
 .user {
@@ -299,4 +301,15 @@ form {
 	  .alert{
 	  	width: 400px;
 	  }
+	  
+.footer {
+	position: relative;
+    height: 45px;
+    margin-top: 20px;
+    text-align: center;
+    background: #1f1f1f;
+	line-height: 45px;
+    width: 100%;
+    display: inline-block;
+}
 	    
