@@ -160,7 +160,7 @@ tr{
 }
 
 input[type=text], select, textarea {
-    width: 100%;
+    width: 300px;
     padding: 6px;
     background-color: #fafafa;
     border: 1px solid #ccc;
