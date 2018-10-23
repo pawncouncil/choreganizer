@@ -40,7 +40,7 @@ public class User {
     private String first;
     @Size(min=1, max=64, message="Last name can not be empty")
     private String last;
-    @Size(min=12, message="Phone number must be 10 digits.")
+    @Size(min=10, message="Phone number must be 10 digits.")
     private String phone;
     @JsonIgnore
 	@Size(min=8, message="Password must be at least 8 characters")

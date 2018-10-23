@@ -23,18 +23,24 @@
 
 </head>
 <body>
-	<h1>Update ${currUser.first} Info</h1>
-	<fieldset>
-	    <form:form method="POST" action="/user/${currUser.id}/update" modelAttribute="user">
-	        <p><form:input path="email" value="${currUser.email}"/><br><form:errors path="email" class="text text-danger"/></p>
-	        <p><form:input path="first" value="${currUser.first}"/><br><form:errors path="first" class="text text-danger"/></p>
-	        <p><form:input path="last" value="${currUser.last}"/><br><form:errors path="last" class="text text-danger"/></p>
-    		<p><form:input type="tel" path="phone"
-	           value="${currUser.phone}"
-	           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-	           required= "true" />
-	        <input type="submit" value="Update" class="btn btn-dark"/>
-	    </form:form>
-   </fieldset> 
+	<div class="headers">
+		<a class="homebutton" href="/home"><i class="fas fa-home"></i></a>
+        <a href="/home" class="logolink"><h1 id="logo">${currUser.first} ${currUser.last}</h1></a>
+    </div>
+    <div class="upForm">
+		<%-- <h1>Update ${currUser.first} Info</h1> --%>
+		<fieldset>
+		    <form:form method="POST" action="/user/${currUser.id}/update" modelAttribute="user">
+		        <p><form:input path="email" value="${currUser.email}"/><br><form:errors path="email" class="text text-danger"/></p>
+		        <p><form:input path="first" value="${currUser.first}"/><br><form:errors path="first" class="text text-danger"/></p>
+		        <p><form:input path="last" value="${currUser.last}"/><br><form:errors path="last" class="text text-danger"/></p>
+	    		<p><form:input type="tel" path="phone"
+		           value="${currUser.phone}"
+		           pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+		           required= "true" /><br>
+		        <input class="update"type="submit" value="Update"/>
+		    </form:form>
+	   </fieldset> 
+   </div>
 </body>
 </html>

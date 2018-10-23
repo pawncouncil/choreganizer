@@ -1,0 +1,86 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100vh;
+    text-align: center;
+    background: #bdc3c7;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to top, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.headera{
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: white;
+	margin: 0px 5px;
+	position: absolute;
+	right: 90%;
+}
+
+.headera:hover {
+	color: rgb(0, 225, 255);
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.homebutton	{
+    font-size: 16px;
+    color: white;
+    position: absolute;
+    left: 2%;
+ }
+ 
+ .homebutton:hover {
+ 	color: rgb(0, 225, 255);
+ }
+
+.headers{
+    position: relative;
+    height: 45px;
+    text-align: center;
+    background: #1f1f1f;
+	line-height: 45px;
+    width: 100%;
+    display: inline-block;
+}
+
+
+#logo{
+    color: rgb(0, 225, 255);
+    font-family: 'Amatic SC', cursive;
+    vertical-align: top;
+    font-size: 35px;
+    display: inline;
+    text-decoration: none;
+}
+
+#logo:hover	{
+	color: white;
+	text-decoration: none;
+}
+
+.update {
+	margin-top: 10px;
+	border-radius: 4px;
+	heigth: 20px;
+	width: 65px;
+	background-color: #405364;
+    color: white;
+    cursor: pointer;
+}
+
+.update:hover {
+	background-color: white;
+    color: #405364;
+}
+
+.upForm {
+	margin-top: 50px;
+}
+
+
+
+
+
+

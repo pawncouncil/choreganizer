@@ -82,7 +82,7 @@
 			        <form:label path="phone">Phone: </form:label><br>
 		    		<p><form:input type="tel" path="phone"
 			           placeholder="123-456-7890"
-			           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+			           pattern="[0-9]{10}"
 			           required= "true" />
 			   	 	<span class="validity"></span><br><form:errors path="phone" class="text text-danger"/></p>
 			        <p><form:label path="password">Password: </form:label><br><form:password path="password"/><br><form:errors path="password" class="text text-danger"/></p>
