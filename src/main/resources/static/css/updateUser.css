@@ -63,6 +63,7 @@ html, body {
 .update {
 	margin-top: 10px;
 	border-radius: 4px;
+	border: none;
 	heigth: 20px;
 	width: 65px;
 	background-color: #405364;
