@@ -126,7 +126,7 @@ public class UserController {
     
     // create a new house
     @RequestMapping(value="/createHouse", method=RequestMethod.POST)
-    public String createHouse(@Valid @ModelAttribute("house") House house, BindingResult result, HttpSession session, Principal principal) {
+    public String createHouse(@Valid @ModelAttribute("house") House house, BindingResult result, HttpSession session, Principal principal, HttpServletRequest request) {
     	houseValidator.validate(house, result);
     	if(result.hasErrors()) { //return user to form to fix errors
     		return "addHouse.jsp";
@@ -134,8 +134,15 @@ public class UserController {
     		House home = houseService.createHouse(house);
     		String email = principal.getName();
     		User member = userService.findByEmail(email);
-    		userService.addHouse(home, member);
     		userService.updateManager(member);
+    		userService.addHouse(home, member);
+    		 try {
+    			request.logout();
+         		
+         	} catch(ServletException e) {
+         		// can't fail
+         	}
+    		
     		return "redirect:/admin";
     	}
     }

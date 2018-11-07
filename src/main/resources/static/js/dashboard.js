@@ -54,7 +54,7 @@ $(document).ready(function(){
 		    	$.get("/home/users/"+houseId, function(users) {
 		    		fillUsers(users);
 		    	});
-	    	}, 200);
+	    	}, 300);
     	}
     	ev.preventDefault();
     });
@@ -72,7 +72,7 @@ $(document).ready(function(){
 		    	$.get("/home/users/"+houseId, function(users) {
 		    		fillUsers(users);
 		    	});
-	    	}, 200);
+	    	}, 300);
 		}
 		ev.preventDefault();
 	});
@@ -108,7 +108,7 @@ $(document).ready(function(){
 		    	$.get("/home/users/"+houseId, function(users) {
 		    		fillUsers(users);
 		    	});
-	    	}, 200);
+	    	}, 300);
     	}
     	ev.preventDefault();
     });
@@ -129,7 +129,7 @@ $(document).ready(function(){
     		$.get("/home/chores/"+houseId, function(chores) {
     			fillChores(chores);
     		})
-    	}, 200);
+    	}, 300);
     	
     	ev.preventDefault();
     });
@@ -178,11 +178,7 @@ $(document).ready(function(){
     		html += "<tr><td>"+user.first + " " + user.last+"</td>"
     		html += "<td>"+user.phone+"</td>"
     		switch(user.roles.length){
-    			case 4,3:
-    				//super admin
-    				html += "<td>Manager</td>"
-    				break;
-    			case 2:
+    			case 4: case 3: case 2:
     				//admin
     				html += "<td>Admin</td>"
     				break;
