@@ -8,6 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +36,8 @@ import com.home.chorganizer.validator.UserValidator;
 @Controller
 public class UserController {
 	
+	@Autowired
+    protected AuthenticationManager authenticationManager;
     
     private UserService userService;
     private UserValidator userValidator;
@@ -70,6 +78,12 @@ public class UserController {
         	User su = userService.saveSuper(user);
         	try {
         		request.login(su.getEmail(), password);
+        		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(su.getEmail(), password);
+                authToken.setDetails(new WebAuthenticationDetails(request));
+                 
+                Authentication authentication = authenticationManager.authenticate(authToken);
+                 
+                SecurityContextHolder.getContext().setAuthentication(authentication);
         	} catch(ServletException e) {
         		// can't fail
         	}
@@ -77,9 +91,15 @@ public class UserController {
             return "redirect:/admin";
         }
         else {
-            User u = userService.savePleb(user);
+            User u = userService.saveAdmin(user);
             try {
         		request.login(u.getEmail(), password);
+        		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(u.getEmail(), password);
+                authToken.setDetails(new WebAuthenticationDetails(request));
+                 
+                Authentication authentication = authenticationManager.authenticate(authToken);
+                 
+                SecurityContextHolder.getContext().setAuthentication(authentication);
         	} catch(ServletException e) {
         		// can't fail
         	}
@@ -118,6 +138,8 @@ public class UserController {
     		String email = principal.getName();
     		User member = userService.findByEmail(email);
     		userService.addHouse(house, member);
+    		// Set as base user
+    		userService.updatePleb(member);
     		return "redirect:/home";
     	} else { //failed to validate house
     		return "redirect:/addHouse?error=true";
@@ -134,15 +156,9 @@ public class UserController {
     		House home = houseService.createHouse(house);
     		String email = principal.getName();
     		User member = userService.findByEmail(email);
+    		// Set as house manager
     		userService.updateManager(member);
     		userService.addHouse(home, member);
-    		 try {
-    			request.logout();
-         		
-         	} catch(ServletException e) {
-         		// can't fail
-         	}
-    		
     		return "redirect:/admin";
     	}
     }
@@ -205,8 +221,7 @@ public class UserController {
         House currentHome = housemate.getHouse();
         if(userService.isSuperUser(housemate) || (housemate.getRoles().size() >= 2 && currentHome.equals(userHome))) { // Requestor must be super user and fellow house admin
 	        userService.updateAdmin(user);
-        } 
-        
+        }     
     }
     
     // revoking admin status

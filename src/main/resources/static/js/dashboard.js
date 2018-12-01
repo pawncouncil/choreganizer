@@ -41,7 +41,7 @@ $(document).ready(function(){
         }
     });
     
-    // Delete User
+ // Delete User
     $(".userDelete").click(function (ev) {
     	var id = $(this).attr("id").slice(1);
     	var csrf = $("#csrf").val();
@@ -54,7 +54,7 @@ $(document).ready(function(){
 		    	$.get("/home/users/"+houseId, function(users) {
 		    		fillUsers(users);
 		    	});
-	    	}, 300);
+	    	}, 500);
     	}
     	ev.preventDefault();
     });
@@ -72,7 +72,7 @@ $(document).ready(function(){
 		    	$.get("/home/users/"+houseId, function(users) {
 		    		fillUsers(users);
 		    	});
-	    	}, 300);
+	    	}, 500);
 		}
 		ev.preventDefault();
 	});
@@ -90,7 +90,7 @@ $(document).ready(function(){
 		    	$.get("/home/users/"+houseId, function(users) {
 		    		fillUsers(users);
 		    	});
-	    	}, 200);
+	    	}, 500);
     	}
     	ev.preventDefault();
     });
@@ -108,7 +108,7 @@ $(document).ready(function(){
 		    	$.get("/home/users/"+houseId, function(users) {
 		    		fillUsers(users);
 		    	});
-	    	}, 300);
+	    	}, 500);
     	}
     	ev.preventDefault();
     });
@@ -129,7 +129,7 @@ $(document).ready(function(){
     		$.get("/home/chores/"+houseId, function(chores) {
     			fillChores(chores);
     		})
-    	}, 300);
+    	}, 500);
     	
     	ev.preventDefault();
     });
